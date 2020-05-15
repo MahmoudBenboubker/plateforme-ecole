@@ -1,63 +1,24 @@
 const functions = require('firebase-functions');
-const admin = require('firebase-admin');
+const app = require('express')();
+const { getAllNiveaux, postNiveau } = require('./controllers/niveaux');
+const { signUp, login } = require('./controllers/authentification');
+const FBAuth = require('./util/middleware');
 
-const express = require('express');
-const app = express();
+// ++++++++++++++++++++++++++++++
+// Niveaux Route
+// ++++++++++++++++++++++++++++++
 
-admin.initializeApp();
+app.get('/niveaux', getAllNiveaux);
+app.post('/niveaux', FBAuth, postNiveau);
+
+// ++++++++++++++++++++++++++++++
+// Authentification Route
+// ++++++++++++++++++++++++++++++
+
+app.post('/signup', signUp);
+app.post('/login', login);
+
+exports.api = functions.region('europe-west1').https.onRequest(app);
+
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-
-// GET Niveaux (Maternelle, Primaire, Collège)
-
-app.get('/niveaux', (request, response) => {
-  admin
-    .firestore()
-    .collection('niveaux')
-    .get()
-    .then(data => {
-      let niveaux = [];
-      data.forEach(doc => {
-        niveaux.push(doc.data());
-      });
-      return response.json(niveaux);
-    })
-    .catch(err => {
-      console.error(err);
-      return response.json(err);
-    });
-});
-
-// POST Niveau (Create new document)
-
-app.post('/niveaux', (req, res) => {
-  const body = req.body;
-  console.log(body);
-  const newNiveau = {
-    id: body.id,
-    name: body.name,
-    // subNiveau: [
-    //   {
-    //     id: body.subNiveau.id,
-    //     name: body.subNiveau.name,
-    //   },
-    // ],
-  };
-  admin
-    .firestore()
-    .collection('niveaux')
-    .add(newNiveau)
-    .then(doc => {
-      res.json({ message: `document ${doc.id} created successfully` });
-      return console.log('success', doc);
-    })
-    .catch(err => {
-      console.error(err);
-      res.json({ message: 'failed' });
-    });
-});
-
-// HTTPS://baseurl.com/api/
-
-exports.api = functions.https.regions('europe-west1').onRequest(app);

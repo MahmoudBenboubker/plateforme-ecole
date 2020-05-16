@@ -1,6 +1,26 @@
 const functions = require('firebase-functions');
 const app = require('express')();
-const { getAllNiveaux, postNiveau } = require('./controllers/niveaux');
+const {
+  getAllNiveaux,
+  getNiveauById,
+  postNiveau,
+  deleteNiveauById,
+  putNiveau,
+} = require('./controllers/niveaux');
+const {
+  getSubNiveauxByNiveau,
+  postSubNiveauxByNiveau,
+  putSubNiveauxByNiveau,
+} = require('./controllers/subniveaux');
+const {
+  getClasseBySubNiveau,
+  postClasseBySubNiveau,
+  putClasseBySubNiveau,
+} = require('./controllers/classes');
+const {
+  postResourceByClasse,
+  postResourceStoreByClasse,
+} = require('./controllers/resources');
 const { signUp, login } = require('./controllers/authentification');
 const FBAuth = require('./util/middleware');
 
@@ -9,7 +29,35 @@ const FBAuth = require('./util/middleware');
 // ++++++++++++++++++++++++++++++
 
 app.get('/niveaux', getAllNiveaux);
+app.get('/niveau/:id', getNiveauById);
+app.delete('/niveau/:id', FBAuth, deleteNiveauById);
 app.post('/niveaux', FBAuth, postNiveau);
+app.put('/niveau', FBAuth, putNiveau);
+
+// ++++++++++++++++++++++++++++++
+// SubNiveaux Route
+// ++++++++++++++++++++++++++++++
+
+app.get('/subNiveaux/:id', getSubNiveauxByNiveau);
+app.post('/subNiveau/:id', FBAuth, postSubNiveauxByNiveau);
+app.put('/subNiveau/:id', FBAuth, putSubNiveauxByNiveau);
+
+// ++++++++++++++++++++++++++++++
+// Classe Route
+// ++++++++++++++++++++++++++++++
+
+app.get('/classes/:id', getClasseBySubNiveau);
+app.post('/classes/:id', FBAuth, postClasseBySubNiveau);
+app.put('/classes/:id', FBAuth, putClasseBySubNiveau);
+
+// ++++++++++++++++++++++++++++++
+// Resource Route
+// ++++++++++++++++++++++++++++++
+
+// app.get('/classes/:id', getClasseBySubNiveau);
+app.post('/resource/:id', FBAuth, postResourceByClasse);
+app.post('/resource/store/:id', FBAuth, postResourceStoreByClasse);
+// app.put('/classes/:id', FBAuth, putClasseBySubNiveau);
 
 // ++++++++++++++++++++++++++++++
 // Authentification Route

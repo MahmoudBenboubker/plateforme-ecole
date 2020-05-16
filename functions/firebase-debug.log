@@ -444,3 +444,40 @@ SyntaxError: Identifier 'app' has already been declared
 [debug] [2020-05-15T01:49:39.558Z] [runtime-status] [10396] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"8.12.1","resolution":"D:\\Coding\\Projets\\React\\react-boilerplate\\functions\\node_modules\\firebase-admin\\lib\\index.js"}} 
 [debug] [2020-05-15T01:49:39.633Z] [runtime-status] [10396] initializeApp(DEFAULT) {"databaseURL":"https://plateforme-ecole.firebaseio.com","storageBucket":"plateforme-ecole.appspot.com","projectId":"plateforme-ecole"} 
 [debug] [2020-05-15T01:49:39.811Z] [worker-~diagnostic~-91a0ff17-8554-421a-9825-c8eb319c4faa]: IDLE 
+[debug] [2020-05-16T22:04:50.672Z] ----------------------------------------------------------------------
+[debug] [2020-05-16T22:04:50.674Z] Command:       D:\Programmes\nodejs\node.exe C:\Users\Mahmoud\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve
+[debug] [2020-05-16T22:04:50.674Z] CLI Version:   6.8.0
+[debug] [2020-05-16T22:04:50.674Z] Platform:      win32
+[debug] [2020-05-16T22:04:50.674Z] Node Version:  v10.16.3
+[debug] [2020-05-16T22:04:50.675Z] Time:          Sat May 16 2020 22:04:50 GMT+0000 (GMT)
+[debug] [2020-05-16T22:04:50.675Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2020-05-16T22:04:50.699Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-05-16T22:04:50.699Z] > authorizing via signed-in user
+[debug] [2020-05-16T22:04:50.699Z] [iam] checking project plateforme-ecole for permissions ["firebase.projects.get"]
+[debug] [2020-05-16T22:04:50.701Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2020-05-16T22:04:50.701Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2020-05-16T22:04:51.114Z] <<< HTTP RESPONSE 200
+[debug] [2020-05-16T22:04:51.133Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/plateforme-ecole:testIamPermissions  
+
+[debug] [2020-05-16T22:04:52.256Z] <<< HTTP RESPONSE 200
+[debug] [2020-05-16T22:04:52.260Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/plateforme-ecole  
+ 
+[debug] [2020-05-16T22:04:53.175Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'D:\Coding\Projets\React\react-boilerplate'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2020-05-16T22:04:57.505Z] Fetching environment
+[debug] [2020-05-16T22:04:57.510Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/342124815010:getServerAppConfig  
+ 
+[debug] [2020-05-16T22:04:57.511Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/342124815010/clients/_:getWebAppConfig  
+ 
+[debug] [2020-05-16T22:04:58.094Z] <<< HTTP RESPONSE 200
+[debug] [2020-05-16T22:04:58.094Z] Starting @google-cloud/functions-emulator
+[debug] [2020-05-16T22:04:58.593Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: build
+[info] +  hosting: Local server: http://localhost:5000
+[debug] [2020-05-16T22:05:00.136Z] Parsing function triggers
+[info] +  functions: api: http://localhost:5001/plateforme-ecole/us-central1/api

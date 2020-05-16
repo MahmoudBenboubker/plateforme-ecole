@@ -6,7 +6,9 @@ exports.getAllNiveaux = (request, response) => {
     .get()
     .then(data => {
       let niveaux = [];
+      console.log('data', data);
       data.forEach(doc => {
+        console.log('id', doc.id);
         niveaux.push(doc.data());
       });
       return response.json(niveaux);
@@ -17,24 +19,65 @@ exports.getAllNiveaux = (request, response) => {
     });
 };
 
+exports.getNiveauById = (req, response) => {
+  const idNiveau = req.params.id;
+  db.collection('niveaux')
+    .doc(idNiveau)
+    .get()
+    .then(data => {
+      if (!data.exists) {
+        return response.status(404).json({ message: "Resource doesn't exist" });
+      } else {
+        return response.json(data.data());
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      return response.json(err);
+    });
+};
+exports.deleteNiveauById = (req, response) => {
+  const idNiveau = req.params.id;
+  db.collection('niveaux')
+    .doc(idNiveau)
+    .delete()
+    .then(data => {
+      return response.json({ message: 'Has been deleted with success' });
+    })
+    .catch(err => {
+      console.error(err);
+      return response.json(err);
+    });
+};
+
 exports.postNiveau = (req, res) => {
   const body = req.body;
-  console.log(body);
   const newNiveau = {
     id: body.id,
     name: body.name,
-    // subNiveau: [
-    //   {
-    //     id: body.subNiveau.id,
-    //     name: body.subNiveau.name,
-    //   },
-    // ],
   };
   db.collection('niveaux')
     .add(newNiveau)
     .then(doc => {
       res.json({ message: `document ${doc.id} created successfully` });
       return console.log('success', doc);
+    })
+    .catch(err => {
+      console.error(err);
+      res.json({ message: 'failed' });
+    });
+};
+
+exports.putNiveau = (req, res) => {
+  const body = req.body;
+  const idNiveau = body.niveauId;
+  const toUpdate = req.body.toUpdate;
+
+  db.doc(`/niveaux/${idNiveau}`)
+    .update(toUpdate)
+    .then(doc => {
+      console.log(doc);
+      return res.json({ message: `document ${doc.id} modified successfully` });
     })
     .catch(err => {
       console.error(err);

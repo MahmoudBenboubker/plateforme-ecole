@@ -66,7 +66,7 @@ function CustomModal({
   secondButton,
   showActions,
   showSecondButton,
-  // maxWidth,
+  maxWidth,
   intro,
   warningModal,
   width,
@@ -95,7 +95,7 @@ function CustomModal({
           aria-label="Close"
           id="close"
           className={classes.modalCloseBtn}
-          // onClick={onClose}
+          onClick={onClose}
         >
           <CloseIcon />
         </IconButton>
@@ -136,7 +136,8 @@ function CustomModal({
               {showSecondButton && (
                 <>
                   {renderAction(
-                    secondButton || defaultSecond,
+                    secondButton,
+                    // || defaultSecond
                     'outlined',
                     warningModal,
                   )}

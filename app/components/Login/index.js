@@ -5,7 +5,7 @@
  */
 
 import React, { memo } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 import TextField from '@material-ui/core/TextField';
 import {
@@ -16,18 +16,8 @@ import useStyles from './styles';
 
 import CustomModal from '../CustomModal';
 
-function Login() {
+function Login({ open, closeModal }) {
   const classes = useStyles();
-
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return (
     <div>
@@ -36,7 +26,7 @@ function Login() {
         id="login"
         maxWidht="800"
         title="Connexion à l'interface"
-        onClose={() => handleClose()}
+        onClose={closeModal}
       >
         <div className={classes.container}>
           <div className={classes.subContainer}>
@@ -75,10 +65,7 @@ function Login() {
             className={classes.rowButtonsContainer}
           >
             <div className={classes.buttonContainer}>
-              <GreenButtonOutlined
-                // onClick={closeModalHandler}
-                id="changePswdBtn"
-              >
+              <GreenButtonOutlined onClick={closeModal} id="changePswdBtn">
                 Annuler
               </GreenButtonOutlined>
               <GreenButton
@@ -101,6 +88,9 @@ function Login() {
   );
 }
 
-Login.propTypes = {};
+Login.propTypes = {
+  open: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func,
+};
 
 export default memo(Login);

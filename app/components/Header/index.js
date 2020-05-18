@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 
 const anchorLeft = 'left';
 
-function Header({ niveaux }) {
+function Header({ niveaux, openModal }) {
   const classes = useStyles();
   const [state, setState] = React.useState({
     left: false,
@@ -110,7 +110,9 @@ function Header({ niveaux }) {
           <Typography variant="h6" className={classes.title}>
             <SchoolIcon />
           </Typography>
-          <Button color="inherit">CONNEXION</Button>
+          <Button onClick={() => openModal()} color="inherit">
+            CONNEXION
+          </Button>
         </Toolbar>
       </AppBar>
       {['left', 'right', 'top', 'bottom'].map(anchor => (
@@ -130,6 +132,7 @@ function Header({ niveaux }) {
 
 Header.propTypes = {
   niveaux: PropTypes.object.isRequired,
+  openModal: PropTypes.func,
 };
 
 export default Header;

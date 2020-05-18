@@ -9,6 +9,11 @@ const selectGlobal = state => state.global || initialState;
 
 const selectRouter = state => state.router;
 
+const makeSelectToggleModalLogin = createSelector(
+  selectGlobal,
+  subState => subState.toggleModalLogin,
+);
+
 const makeSelectCurrentUser = () =>
   createSelector(
     selectGlobal,
@@ -46,4 +51,5 @@ export {
   makeSelectError,
   makeSelectRepos,
   makeSelectLocation,
+  makeSelectToggleModalLogin,
 };

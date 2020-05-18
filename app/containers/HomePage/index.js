@@ -21,7 +21,6 @@ import {
 } from 'containers/App/selectors';
 import H2 from 'components/H2';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
 
 import NiveauPaper from '../../components/NiveauPaper/Loadable';
 import CenteredSection from './CenteredSection';
@@ -34,26 +33,13 @@ import reducer from './reducer';
 import saga from './saga';
 
 import { niveaux } from '../../constants/constants';
+import CustomGrid from '../../components/CustomGrid';
+
 const key = 'home';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    height: 140,
-    width: 100,
-  },
-  control: {
-    padding: theme.spacing(2),
-  },
-}));
 export function HomePage({ username, onSubmitForm }) {
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
-
-  const spacing = 3;
-  const classes = useStyles();
 
   useEffect(() => {
     // When initial state username is not null, submit the form to load repos
@@ -63,7 +49,7 @@ export function HomePage({ username, onSubmitForm }) {
   return (
     <article style={{ justifyContent: 'center', display: 'flex' }}>
       <Helmet>
-        <title>Home Page</title>
+        <title>Accueil</title>
         <meta
           name="description"
           content="A React.js Boilerplate application homepage"
@@ -79,17 +65,13 @@ export function HomePage({ username, onSubmitForm }) {
           </p>
         </CenteredSection>
         <Section>
-          <Grid container className={classes.root} spacing={2}>
-            <Grid item xs={12}>
-              <Grid container justify="center" spacing={spacing}>
-                {niveaux.map(niveau => (
-                  <Grid key={niveau.id} item>
-                    <NiveauPaper key={niveau.id} niveau={niveau} />
-                  </Grid>
-                ))}
+          <CustomGrid>
+            {niveaux.map(niveau => (
+              <Grid key={niveau.id} item>
+                <NiveauPaper key={niveau.id} niveau={niveau} />
               </Grid>
-            </Grid>
-          </Grid>
+            ))}
+          </CustomGrid>
         </Section>
       </div>
     </article>

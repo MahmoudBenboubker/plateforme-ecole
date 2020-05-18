@@ -110,7 +110,7 @@ function Header({ niveaux }) {
           <Typography variant="h6" className={classes.title}>
             <SchoolIcon />
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit">CONNEXION</Button>
         </Toolbar>
       </AppBar>
       {['left', 'right', 'top', 'bottom'].map(anchor => (

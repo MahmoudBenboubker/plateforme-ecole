@@ -20,6 +20,7 @@ import Header from 'components/Header';
 import { niveaux } from '../../constants/constants';
 
 import GlobalStyle from '../../global-styles';
+import Login from '../../components/Login';
 
 const AppWrapper = styled.div`
   margin: 0 auto;
@@ -42,6 +43,7 @@ export default function App() {
         <Route path="/features" component={FeaturePage} />
         <Route path="" component={NotFoundPage} />
       </Switch>
+      <Login />
       {/* <Footer /> */}
       <GlobalStyle />
     </AppWrapper>

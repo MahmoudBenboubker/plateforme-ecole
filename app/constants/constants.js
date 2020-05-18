@@ -38,3 +38,16 @@ export const niveaux = [
 ];
 
 export const mainColor = '#207537';
+
+export const regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+export const formHasErrors = errors =>
+  Object.keys(errors).some(key => {
+    const value = errors[key];
+
+    if (value && typeof value === 'object') {
+      return formHasErrors(value);
+    }
+
+    return typeof value !== 'undefined';
+  });

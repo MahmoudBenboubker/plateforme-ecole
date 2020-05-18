@@ -29,6 +29,63 @@ export  const niveaux = [
       { id: '33', name: '3eme Niveau' },
     ],
   },
+  {
+    id: '3',
+    name: 'Collège',
+    subNiveaux: [
+      { id: '31', name: '1er Niveau' },
+      { id: '32', name: '2eme Niveau' },
+      { id: '33', name: '3eme Niveau' },
+    ],
+  },{
+    id: '3',
+    name: 'Collège',
+    subNiveaux: [
+      { id: '31', name: '1er Niveau' },
+      { id: '32', name: '2eme Niveau' },
+      { id: '33', name: '3eme Niveau' },
+    ],
+  },{
+    id: '3',
+    name: 'Collège',
+    subNiveaux: [
+      { id: '31', name: '1er Niveau' },
+      { id: '32', name: '2eme Niveau' },
+      { id: '33', name: '3eme Niveau' },
+    ],
+  },{
+    id: '3',
+    name: 'Collège',
+    subNiveaux: [
+      { id: '31', name: '1er Niveau' },
+      { id: '32', name: '2eme Niveau' },
+      { id: '33', name: '3eme Niveau' },
+    ],
+  },{
+    id: '3',
+    name: 'Collège',
+    subNiveaux: [
+      { id: '31', name: '1er Niveau' },
+      { id: '32', name: '2eme Niveau' },
+      { id: '33', name: '3eme Niveau' },
+    ],
+  },{
+    id: '3',
+    name: 'Collège',
+    subNiveaux: [
+      { id: '31', name: '1er Niveau' },
+      { id: '32', name: '2eme Niveau' },
+      { id: '33', name: '3eme Niveau' },
+    ],
+  },{
+    id: '3',
+    name: 'Collège',
+    subNiveaux: [
+      { id: '31', name: '1er Niveau' },
+      { id: '32', name: '2eme Niveau' },
+      { id: '33', name: '3eme Niveau' },
+    ],
+  },
 ];
 
 export const mainColor = '#207537';

@@ -20,6 +20,9 @@ import {
   makeSelectError,
 } from 'containers/App/selectors';
 import H2 from 'components/H2';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+
 import NiveauPaper from '../../components/NiveauPaper/Loadable';
 import CenteredSection from './CenteredSection';
 import Section from './Section';
@@ -29,12 +32,29 @@ import { changeUsername } from './actions';
 import { makeSelectUsername } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+
 import { niveaux } from '../../constants/constants';
 const key = 'home';
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    height: 140,
+    width: 100,
+  },
+  control: {
+    padding: theme.spacing(2),
+  },
+}));
 export function HomePage({ username, onSubmitForm }) {
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
+
+  const spacing = 3;
+  const classes = useStyles();
+
   useEffect(() => {
     // When initial state username is not null, submit the form to load repos
     if (username && username.trim().length > 0) onSubmitForm();
@@ -59,9 +79,17 @@ export function HomePage({ username, onSubmitForm }) {
           </p>
         </CenteredSection>
         <Section>
-          {niveaux.map(niveau => (
-            <NiveauPaper key={niveau.id} niveau={niveau} />
-          ))}
+          <Grid container className={classes.root} spacing={2}>
+            <Grid item xs={12}>
+              <Grid container justify="center" spacing={spacing}>
+                {niveaux.map(niveau => (
+                  <Grid key={niveau.id} item>
+                    <NiveauPaper key={niveau.id} niveau={niveau} />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
         </Section>
       </div>
     </article>

@@ -5,7 +5,8 @@ import { LOGIN_CREDENTIALS_LOGIN } from './constants';
 import { callApi } from '../../services/saga';
 
 function* loginSaga(action) {
-  yield call(callApi('/niveaux')).
+  // yield call(callApi('/niveaux')).
+  console.log(action)
 }
 
 function* watchLogin() {

@@ -10,6 +10,7 @@
     "npm": ">=5",
     "node": ">=8.15.1"
   },
+  "proxy": "https://europe-west1-plateforme-ecole.cloudfunctions.net/api",
   "author": "Max Stoiber",
   "license": "MIT",
   "scripts": {
@@ -67,6 +68,7 @@
     "@babel/polyfill": "7.4.3",
     "@material-ui/core": "^4.9.14",
     "@material-ui/icons": "^4.9.1",
+    "axios": "^0.19.2",
     "chalk": "^2.4.2",
     "compression": "1.7.4",
     "connected-react-router": "6.4.0",

@@ -19,7 +19,7 @@ import useStyles from './styles';
 import { regexEmail, formHasErrors } from '../../constants/constants';
 import CustomModal from '../CustomModal';
 
-function Login({ open, closeModal }) {
+function Login({ open, closeModal, logInHandler }) {
   const classes = useStyles();
 
   const initialValues = {
@@ -51,7 +51,7 @@ function Login({ open, closeModal }) {
               email: values.email,
               passwor: values.password,
             };
-            console.log(login);
+            logInHandler(login);
           }}
         >
           {({
@@ -142,6 +142,7 @@ function Login({ open, closeModal }) {
 Login.propTypes = {
   open: PropTypes.bool.isRequired,
   closeModal: PropTypes.func,
+  logInHandler: PropTypes.func,
 };
 
 export default memo(Login);

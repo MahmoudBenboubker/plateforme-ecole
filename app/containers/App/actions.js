@@ -20,6 +20,7 @@ import {
   LOAD_REPOS_SUCCESS,
   LOAD_REPOS_ERROR,
   TOGGLE_MODAL_LOGIN,
+  LOGIN_CREDENTIALS_LOGIN
 } from './constants';
 
 /**
@@ -67,5 +68,12 @@ export function toggleModalLoginAction(toggle) {
   return {
     type: TOGGLE_MODAL_LOGIN,
     toggle,
+  };
+}
+
+export function loginCredentialsAction(credentials) {
+  return {
+    type: LOGIN_CREDENTIALS_LOGIN,
+    credentials,
   };
 }

@@ -131,7 +131,7 @@ function Header({ niveaux, openModal }) {
 }
 
 Header.propTypes = {
-  niveaux: PropTypes.object.isRequired,
+  niveaux: PropTypes.array.isRequired,
   openModal: PropTypes.func,
 };
 

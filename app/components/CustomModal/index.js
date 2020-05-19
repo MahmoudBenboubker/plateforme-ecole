@@ -161,7 +161,7 @@ CustomModal.defaultProps = {
 };
 CustomModal.propTypes = {
   open: PropTypes.bool,
-  firstButton: PropTypes.object.isRequired,
+  firstButton: PropTypes.object,
   onClose: PropTypes.func,
   id: PropTypes.string,
   children: PropTypes.oneOfType([

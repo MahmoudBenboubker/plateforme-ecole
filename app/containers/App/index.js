@@ -41,8 +41,13 @@ import {
   makeSelectToggleModalLogin,
   selectIsLoading,
   selectToasts,
+  selectUserState,
 } from './selectors';
-import { toggleModalLoginAction, loginCredentialsAction } from './actions';
+import {
+  toggleModalLoginAction,
+  loginCredentialsAction,
+  updateUserStateAction,
+} from './actions';
 // eslint-disable-next-line import/no-unresolved
 
 const AppWrapper = styled.div`
@@ -79,6 +84,7 @@ export function App({
   isLoading,
   loginCredentials,
   toasts,
+  userState,
 }) {
   const logIn = data => {
     loginCredentials(data);
@@ -103,7 +109,11 @@ export function App({
         {toasts.map((toast, index) => (
           <Toastr key={toast.id} index={index} {...toast} />
         ))}
-        <Header openModal={() => toggleModalLogin(true)} niveaux={niveaux} />
+        <Header
+          openModal={() => toggleModalLogin(true)}
+          niveaux={niveaux}
+          userState={userState}
+        />
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/features" component={FeaturePage} />
@@ -129,12 +139,14 @@ App.propTypes = {
   loginCredentials: PropTypes.func,
   isLoading: PropTypes.bool.isRequired,
   toasts: PropTypes.array.isRequired,
+  userState: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   openModalLogin: makeSelectToggleModalLogin,
   isLoading: selectIsLoading,
   toasts: selectToasts,
+  userState: selectUserState,
 });
 
 const mapDispatchToProps = dispatch =>
@@ -142,6 +154,7 @@ const mapDispatchToProps = dispatch =>
     {
       toggleModalLogin: toggleModalLoginAction,
       loginCredentials: loginCredentialsAction,
+      updateUserState: updateUserStateAction,
     },
     dispatch,
   );

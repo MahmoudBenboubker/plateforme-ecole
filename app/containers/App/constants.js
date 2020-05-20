@@ -17,5 +17,6 @@ export const SHOW_LOADER_ACTION = 'boilerplate/App/SHOW_LOADER_ACTION';
 export const ADD_TOAST = 'boilerplate/App/ADD_TOAST';
 export const UPDATE_CONNECTED_USER = 'boilerplate/App/UPDATE_CONNECTED_USER';
 export const REMOVE_TOAST = 'boilerplate/App/REMOVE_TOAST';
+export const USER_STATE = 'boilerplate/App/USER_STATE';
 export const LOGIN_CREDENTIALS_LOGIN =
   'boilerplate/App/LOGIN_CREDENTIALS_LOGIN';

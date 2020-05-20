@@ -49,7 +49,7 @@ function Login({ open, closeModal, logInHandler }) {
           onSubmit={values => {
             const login = {
               email: values.email,
-              passwor: values.password,
+              password: values.password,
             };
             logInHandler(login);
           }}

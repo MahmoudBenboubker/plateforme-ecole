@@ -18,6 +18,7 @@ import {
   ADD_TOAST,
   REMOVE_TOAST,
   UPDATE_CONNECTED_USER,
+  USER_STATE,
 } from './constants';
 
 // The initial state of the App
@@ -31,13 +32,7 @@ export const initialState = {
   toggleModalLogin: false,
   connectedUser: null,
   isLoading: false,
-  toasts: [
-    {
-      id: 69,
-      typeToast: 'success',
-      message: 'KKL?SLKS?',
-    },
-  ],
+  toasts: [],
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -91,6 +86,10 @@ const appReducer = (state = initialState, action) =>
             typeToast: action.typeToast,
             id: Math.random(),
           });
+        break;
+
+      case USER_STATE:
+        draft.currentUser = action.userState;
         break;
     }
   });

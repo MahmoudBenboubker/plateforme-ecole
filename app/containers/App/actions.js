@@ -25,6 +25,7 @@ import {
   ADD_TOAST,
   REMOVE_TOAST,
   UPDATE_CONNECTED_USER,
+  USER_STATE,
 } from './constants';
 
 /**
@@ -90,8 +91,6 @@ export function showLoaderAction(show = true) {
 }
 
 export function addToastAction(message, typeToast) {
-  console.log('action', message);
-
   return {
     type: ADD_TOAST,
     message,
@@ -110,5 +109,11 @@ export function updateConnectedUserAction(newUser) {
   return {
     type: UPDATE_CONNECTED_USER,
     newUser,
+  };
+}
+export function updateUserStateAction(userState) {
+  return {
+    type: USER_STATE,
+    userState,
   };
 }

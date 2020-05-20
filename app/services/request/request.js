@@ -59,12 +59,15 @@ export const requestClear = (url, options) => {
 
 export const requestLogin = (url, options) => {
   const headers = options && options.headers ? options.headers : {};
+  console.log('headers', headers);
+
   return fetch(`${HOSTNAME}/api${url}`, {
     method: 'POST',
     ...options,
     headers: {
       'Accept-Language': 'fr',
       'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
       ...headers,
     },
   })

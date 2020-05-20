@@ -34,10 +34,12 @@ function* callApi(
         'Content-Type': 'application/json',
       },
     };
+
     if (useLoader) {
       yield put(showLoaderAction(true));
     }
     let data = requestBody;
+    data = yield call(requestBody);
     if (
       ['POST', 'PUT'].indexOf(options.method.toLocaleUpperCase()) !== -1 &&
       data &&
@@ -46,6 +48,7 @@ function* callApi(
       data = yield call(requestBody);
     }
     if (requestBody) {
+      console.log('request with data');
       response = yield requestWithAuth(url, { ...options, body: data });
     } else {
       response = yield requestWithAuth(url, options);
@@ -57,9 +60,14 @@ function* callApi(
       const formattedData = formatDataFunction
         ? formatDataFunction(response.data)
         : response.data;
-      console.log("formattedData",formattedData);
+
+      if (url === '/login') {
+        AccessTokenStorage.clear();
+        AccessTokenStorage.setAccessToken(response.data);
+      }
+
       if (callbackAction) {
-        console.log("callback")
+        console.log('callback');
         const iterableArgs =
           additionalCallbackArgs == null ? [] : additionalCallbackArgs;
         if (noData) {

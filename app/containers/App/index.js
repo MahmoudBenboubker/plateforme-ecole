@@ -18,12 +18,16 @@ import { useInjectReducer } from 'utils/injectReducer';
 import HomePage from 'containers/HomePage/Loadable';
 import FeaturePage from 'containers/FeaturePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+
 import Header from 'components/Header';
 // import Footer from 'components/Footer';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+
+import Toastr from '../../components/Toastr/index';
 
 import saga from './saga';
 import reducer from './reducer';
@@ -33,7 +37,11 @@ import { niveaux } from '../../constants/constants';
 import GlobalStyle from '../../global-styles';
 import Login from '../../components/Login';
 
-import { makeSelectToggleModalLogin } from './selectors';
+import {
+  makeSelectToggleModalLogin,
+  selectIsLoading,
+  selectToasts,
+} from './selectors';
 import { toggleModalLoginAction, loginCredentialsAction } from './actions';
 // eslint-disable-next-line import/no-unresolved
 
@@ -43,7 +51,35 @@ const AppWrapper = styled.div`
   flex-direction: column;
 `;
 
-export function App({ toggleModalLogin, openModalLogin, loginCredentials }) {
+const loader = (
+  <div
+    style={{
+      position: 'fixed',
+      backgroundolor: 'transparent',
+      width: '100%',
+      height: '100%',
+      zIndex: 99999,
+    }}
+  >
+    <CircularProgress
+      size={60}
+      style={{
+        position: 'fixed',
+        color: '#00ff9c',
+        left: 'calc(50%)',
+        top: 'calc(40%)',
+      }}
+    />
+  </div>
+);
+
+export function App({
+  toggleModalLogin,
+  openModalLogin,
+  isLoading,
+  loginCredentials,
+  toasts,
+}) {
   const logIn = data => {
     loginCredentials(data);
   };
@@ -56,6 +92,7 @@ export function App({ toggleModalLogin, openModalLogin, loginCredentials }) {
       <Helmet titleTemplate="%s - E-Plateforme" defaultTitle="E-Plateforme">
         <meta name="description" content="E-Plateforme" />
       </Helmet>
+      {isLoading === true ? loader : null}
       <div
         style={{
           color: '#485563',
@@ -63,6 +100,9 @@ export function App({ toggleModalLogin, openModalLogin, loginCredentials }) {
           height: '100%',
         }}
       >
+        {toasts.map((toast, index) => (
+          <Toastr key={toast.id} index={index} {...toast} />
+        ))}
         <Header openModal={() => toggleModalLogin(true)} niveaux={niveaux} />
         <Switch>
           <Route exact path="/" component={HomePage} />
@@ -87,10 +127,14 @@ App.propTypes = {
   toggleModalLogin: PropTypes.func,
   openModalLogin: PropTypes.bool.isRequired,
   loginCredentials: PropTypes.func,
+  isLoading: PropTypes.bool.isRequired,
+  toasts: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   openModalLogin: makeSelectToggleModalLogin,
+  isLoading: selectIsLoading,
+  toasts: selectToasts,
 });
 
 const mapDispatchToProps = dispatch =>

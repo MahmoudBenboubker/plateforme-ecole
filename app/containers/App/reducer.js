@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 /*
  * AppReducer
  *
@@ -13,6 +14,10 @@ import {
   LOAD_REPOS,
   LOAD_REPOS_ERROR,
   TOGGLE_MODAL_LOGIN,
+  SHOW_LOADER_ACTION,
+  ADD_TOAST,
+  REMOVE_TOAST,
+  UPDATE_CONNECTED_USER,
 } from './constants';
 
 // The initial state of the App
@@ -24,6 +29,15 @@ export const initialState = {
     repositories: false,
   },
   toggleModalLogin: false,
+  connectedUser: null,
+  isLoading: false,
+  toasts: [
+    {
+      id: 69,
+      typeToast: 'success',
+      message: 'KKL?SLKS?',
+    },
+  ],
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -42,6 +56,17 @@ const appReducer = (state = initialState, action) =>
         draft.currentUser = action.username;
         break;
 
+      case UPDATE_CONNECTED_USER:
+        draft.connectedUser = { ...state.connectedUser, ...action.newUser };
+        break;
+
+      case REMOVE_TOAST:
+        draft.toasts.splice(
+          state.toasts.findIndex(toast => toast.id === action.id),
+          1,
+        );
+        break;
+
       case LOAD_REPOS_ERROR:
         draft.error = action.error;
         draft.loading = false;
@@ -49,6 +74,23 @@ const appReducer = (state = initialState, action) =>
 
       case TOGGLE_MODAL_LOGIN:
         draft.toggleModalLogin = action.toggle;
+        break;
+
+      case SHOW_LOADER_ACTION:
+        draft.isLoading = action.show;
+        break;
+
+      case ADD_TOAST:
+        const toastIndex = state.toasts.findIndex(
+          toast => toast.message === action.message,
+        );
+        // Add toast only if not in the stack
+        if (toastIndex === -1)
+          draft.toasts.push({
+            message: action.message,
+            typeToast: action.typeToast,
+            id: Math.random(),
+          });
         break;
     }
   });

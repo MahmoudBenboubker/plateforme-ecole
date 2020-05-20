@@ -51,3 +51,13 @@ export const formHasErrors = errors =>
 
     return typeof value !== 'undefined';
   });
+
+export const HTTP_STATUS_ERROR = 500;
+export const HOSTNAME =
+  'https://europe-west1-plateforme-ecole.cloudfunctions.net';
+
+  /** Toast Types */
+export const TOAST_SUCCESS = 'success';
+export const TOAST_ERROR = 'error';
+export const TOAST_WARNING = 'warning';
+export const TOAST_INFO = 'info';

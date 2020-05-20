@@ -13,5 +13,9 @@ export const LOAD_REPOS = 'boilerplate/App/LOAD_REPOS';
 export const LOAD_REPOS_SUCCESS = 'boilerplate/App/LOAD_REPOS_SUCCESS';
 export const LOAD_REPOS_ERROR = 'boilerplate/App/LOAD_REPOS_ERROR';
 export const TOGGLE_MODAL_LOGIN = 'boilerplate/App/TOGGLE_MODAL_LOGIN';
+export const SHOW_LOADER_ACTION = 'boilerplate/App/SHOW_LOADER_ACTION';
+export const ADD_TOAST = 'boilerplate/App/ADD_TOAST';
+export const UPDATE_CONNECTED_USER = 'boilerplate/App/UPDATE_CONNECTED_USER';
+export const REMOVE_TOAST = 'boilerplate/App/REMOVE_TOAST';
 export const LOGIN_CREDENTIALS_LOGIN =
   'boilerplate/App/LOGIN_CREDENTIALS_LOGIN';

@@ -20,7 +20,11 @@ import {
   LOAD_REPOS_SUCCESS,
   LOAD_REPOS_ERROR,
   TOGGLE_MODAL_LOGIN,
-  LOGIN_CREDENTIALS_LOGIN
+  LOGIN_CREDENTIALS_LOGIN,
+  SHOW_LOADER_ACTION,
+  ADD_TOAST,
+  REMOVE_TOAST,
+  UPDATE_CONNECTED_USER,
 } from './constants';
 
 /**
@@ -75,5 +79,36 @@ export function loginCredentialsAction(credentials) {
   return {
     type: LOGIN_CREDENTIALS_LOGIN,
     credentials,
+  };
+}
+
+export function showLoaderAction(show = true) {
+  return {
+    type: SHOW_LOADER_ACTION,
+    show,
+  };
+}
+
+export function addToastAction(message, typeToast) {
+  console.log('action', message);
+
+  return {
+    type: ADD_TOAST,
+    message,
+    typeToast,
+  };
+}
+
+export function removeToastAction(id) {
+  return {
+    type: REMOVE_TOAST,
+    id,
+  };
+}
+
+export function updateConnectedUserAction(newUser) {
+  return {
+    type: UPDATE_CONNECTED_USER,
+    newUser,
   };
 }

@@ -1,7 +1,122 @@
 /* eslint-disable prettier/prettier */
-const axios = require('axios');
-const urlApi = 'https://europe-west1-plateforme-ecole.cloudfunctions.net/api';
+import { call, put, all } from 'redux-saga/effects';
+import {
+  showLoaderAction,
+  addToastAction,
+  updateConnectedUserAction,
+} from '../containers/App/actions';
+import AccessTokenStorage from './storage/AccessTokenStorage';
+import requestWithAuth from './request/request-with-auth';
+import { TOAST_SUCCESS, TOAST_ERROR } from '../constants/constants';
+import history from '../utils/history';
+const MSG_DECRYPT_ERROR = 'KEY NOT VALID SESSION TIME OUT';
 
-exports.callApi = url => {
-  axios.get(`${urlApi}/niveaux`);
-};
+function* callApi(
+  url,
+  methodHttp,
+  requestBody,
+  callbackAction,
+  successMsg,
+  additionalCallbackArgs = [],
+  formatDataFunction,
+  routeCreatorFromResponse,
+  noData = false,
+  useLoader,
+  updateUserFromResponse,
+  fromRoute,
+  errorAction = () => {},
+) {
+  try {
+    let response;
+    const options = {
+      method: methodHttp,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    if (useLoader) {
+      yield put(showLoaderAction(true));
+    }
+    let data = requestBody;
+    if (
+      ['POST', 'PUT'].indexOf(options.method.toLocaleUpperCase()) !== -1 &&
+      data &&
+      options.headers['Content-Type'] === 'application/json'
+    ) {
+      data = yield call(requestBody);
+    }
+    if (requestBody) {
+      response = yield requestWithAuth(url, { ...options, body: data });
+    } else {
+      response = yield requestWithAuth(url, options);
+    }
+    const dataResp = response;
+    response = {};
+    response.data = dataResp;
+    if (response && response.data !== null && response.data !== undefined) {
+      const formattedData = formatDataFunction
+        ? formatDataFunction(response.data)
+        : response.data;
+      console.log("formattedData",formattedData);
+      if (callbackAction) {
+        console.log("callback")
+        const iterableArgs =
+          additionalCallbackArgs == null ? [] : additionalCallbackArgs;
+        if (noData) {
+          yield put(callbackAction(...iterableArgs));
+        } else {
+          yield put(callbackAction(formattedData, ...iterableArgs));
+        }
+      }
+      if (successMsg) {
+        yield put(addToastAction(successMsg, TOAST_SUCCESS));
+      }
+      if (updateUserFromResponse) {
+        yield put(
+          updateConnectedUserAction(updateUserFromResponse(response.data)),
+        );
+      }
+      if (routeCreatorFromResponse) {
+        if (fromRoute) {
+          history.push({
+            pathname: routeCreatorFromResponse(response.data),
+            state: {
+              from: history.location.pathname,
+            },
+          });
+        } else {
+          history.push(routeCreatorFromResponse(response.data));
+        }
+      }
+    } else if (response && response.errors && response.errors.length > 0) {
+      yield all(
+        response.errors.map(err =>
+          put(addToastAction(err.message, TOAST_ERROR)),
+        ),
+      );
+    } else if (response && response.message && response.message.length > 0) {
+      yield put(addToastAction(response.message, TOAST_ERROR));
+    }
+    yield put(showLoaderAction(false));
+  } catch (e) {
+    if (MSG_DECRYPT_ERROR === e.message) {
+      yield put(showLoaderAction(false));
+      AccessTokenStorage.clear();
+      history.push({
+        pathname: '/',
+        state: {
+          from: history.location.pathname,
+        },
+      });
+    } else {
+      yield put(addToastAction('Erreur survenue', TOAST_ERROR));
+      console.error(e);
+      yield put(showLoaderAction(false));
+      if (errorAction) {
+        yield put(errorAction());
+      }
+    }
+  }
+}
+
+export { callApi };

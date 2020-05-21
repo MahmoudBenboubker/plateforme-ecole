@@ -27,6 +27,7 @@ function* callApi(
   errorAction = () => {},
 ) {
   try {
+    
     let response;
     const options = {
       method: methodHttp,
@@ -39,7 +40,7 @@ function* callApi(
       yield put(showLoaderAction(true));
     }
     let data = requestBody;
-    data = yield call(requestBody);
+    // data = yield call(requestBody);
     if (
       ['POST', 'PUT'].indexOf(options.method.toLocaleUpperCase()) !== -1 &&
       data &&
@@ -48,7 +49,6 @@ function* callApi(
       data = yield call(requestBody);
     }
     if (requestBody) {
-      console.log('request with data');
       response = yield requestWithAuth(url, { ...options, body: data });
     } else {
       response = yield requestWithAuth(url, options);
@@ -67,7 +67,6 @@ function* callApi(
       }
 
       if (callbackAction) {
-        console.log('callback');
         const iterableArgs =
           additionalCallbackArgs == null ? [] : additionalCallbackArgs;
         if (noData) {

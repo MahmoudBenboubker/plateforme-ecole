@@ -6,7 +6,7 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { Helmet } from 'react-helmet';
@@ -42,11 +42,14 @@ import {
   selectIsLoading,
   selectToasts,
   selectUserState,
+  selectShowNiveaux,
 } from './selectors';
 import {
   toggleModalLoginAction,
   loginCredentialsAction,
   updateUserStateAction,
+  fetchNiveauxAction,
+  resetNiveauxAction,
 } from './actions';
 // eslint-disable-next-line import/no-unresolved
 
@@ -90,8 +93,12 @@ export function App({
     loginCredentials(data);
   };
 
-  useInjectReducer({ key: 'app', reducer });
-  useInjectSaga({ key: 'app', saga });
+  useEffect(() => {
+    // useDispatch(fetchNiveaux());
+  }, []);
+
+  useInjectReducer({ key: 'appIndex', reducer });
+  useInjectSaga({ key: 'appIndex', saga });
 
   return (
     <AppWrapper>
@@ -114,6 +121,7 @@ export function App({
           niveaux={niveaux}
           userState={userState}
         />
+
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/features" component={FeaturePage} />
@@ -147,6 +155,7 @@ const mapStateToProps = createStructuredSelector({
   isLoading: selectIsLoading,
   toasts: selectToasts,
   userState: selectUserState,
+  showNiveaux: selectShowNiveaux,
 });
 
 const mapDispatchToProps = dispatch =>
@@ -155,6 +164,8 @@ const mapDispatchToProps = dispatch =>
       toggleModalLogin: toggleModalLoginAction,
       loginCredentials: loginCredentialsAction,
       updateUserState: updateUserStateAction,
+      fetchNiveaux: fetchNiveauxAction,
+      resetNiveaux: resetNiveauxAction,
     },
     dispatch,
   );

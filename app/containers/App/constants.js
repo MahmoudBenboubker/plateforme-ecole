@@ -18,5 +18,9 @@ export const ADD_TOAST = 'boilerplate/App/ADD_TOAST';
 export const UPDATE_CONNECTED_USER = 'boilerplate/App/UPDATE_CONNECTED_USER';
 export const REMOVE_TOAST = 'boilerplate/App/REMOVE_TOAST';
 export const USER_STATE = 'boilerplate/App/USER_STATE';
+export const FETCH_NIVEAUX = 'boilerplate/App/FETCH_NIVEAUX';
+export const STORE_NIVEAUX = 'boilerplate/App/STORE_NIVEAUX';
+export const SHOW_NIVEAUX = 'boilerplate/App/SHOW_NIVEAUX';
+export const RESET_NIVEAUX = 'boilerplate/App/RESET_NIVEAUX';
 export const LOGIN_CREDENTIALS_LOGIN =
   'boilerplate/App/LOGIN_CREDENTIALS_LOGIN';

@@ -19,13 +19,16 @@ import {
   REMOVE_TOAST,
   UPDATE_CONNECTED_USER,
   USER_STATE,
+  STORE_NIVEAUX,
+  RESET_NIVEAUX,
 } from './constants';
+import AccessTokenStorage from '../../services/storage/AccessTokenStorage';
 
 // The initial state of the App
 export const initialState = {
   loading: false,
   error: false,
-  currentUser: false,
+  currentUser: !!AccessTokenStorage.getAccessToken(),
   userData: {
     repositories: false,
   },
@@ -33,6 +36,7 @@ export const initialState = {
   connectedUser: null,
   isLoading: false,
   toasts: [],
+  niveaux: [],
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -90,6 +94,14 @@ const appReducer = (state = initialState, action) =>
 
       case USER_STATE:
         draft.currentUser = action.userState;
+        break;
+
+      case STORE_NIVEAUX:
+        draft.niveaux = action.niveaux;
+        break;
+
+      case RESET_NIVEAUX:
+        draft.niveaux = [];
         break;
     }
   });

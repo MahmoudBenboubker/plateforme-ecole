@@ -26,6 +26,9 @@ import {
   REMOVE_TOAST,
   UPDATE_CONNECTED_USER,
   USER_STATE,
+  FETCH_NIVEAUX,
+  STORE_NIVEAUX,
+  RESET_NIVEAUX,
 } from './constants';
 
 /**
@@ -115,5 +118,22 @@ export function updateUserStateAction(userState) {
   return {
     type: USER_STATE,
     userState,
+  };
+}
+
+export function fetchNiveauxAction() {
+  return {
+    type: FETCH_NIVEAUX,
+  };
+}
+export function storeNiveauxAction(niveaux) {
+  return {
+    type: STORE_NIVEAUX,
+    niveaux,
+  };
+}
+export function resetNiveauxAction() {
+  return {
+    type: RESET_NIVEAUX,
   };
 }

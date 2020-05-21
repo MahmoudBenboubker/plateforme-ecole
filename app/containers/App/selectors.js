@@ -9,6 +9,11 @@ const selectGlobal = state => state.global || initialState;
 
 const selectRouter = state => state.router;
 
+const selectShowNiveaux = () =>
+  createSelector(
+    selectGlobal,
+    subState => subState.niveaux,
+  );
 const selectUserState = createSelector(
   selectGlobal,
   subState => subState.currentUser,
@@ -70,4 +75,5 @@ export {
   selectIsLoading,
   selectToasts,
   selectUserState,
+  selectShowNiveaux,
 };

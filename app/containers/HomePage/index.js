@@ -32,7 +32,6 @@ import { makeSelectUsername } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-import { niveaux } from '../../constants/constants';
 import CustomGrid from '../../components/CustomGrid';
 
 const key = 'home';
@@ -45,8 +44,6 @@ export function HomePage({ fetchNiveaux, niveauxSaga }) {
     // When initial state username is not null, submit the form to load repos
     fetchNiveaux();
   }, []);
-
-  console.log(niveauxSaga);
 
   return (
     <article style={{ justifyContent: 'center', display: 'flex' }}>

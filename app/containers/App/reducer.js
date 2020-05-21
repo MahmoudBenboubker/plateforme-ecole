@@ -21,6 +21,7 @@ import {
   USER_STATE,
   STORE_NIVEAUX,
   RESET_NIVEAUX,
+  TOGGLE_MODAL_LOGOUT,
 } from './constants';
 import AccessTokenStorage from '../../services/storage/AccessTokenStorage';
 
@@ -33,6 +34,7 @@ export const initialState = {
     repositories: false,
   },
   toggleModalLogin: false,
+  toggleModalLogout: false,
   connectedUser: null,
   isLoading: false,
   toasts: [],
@@ -73,6 +75,10 @@ const appReducer = (state = initialState, action) =>
 
       case TOGGLE_MODAL_LOGIN:
         draft.toggleModalLogin = action.toggle;
+        break;
+
+      case TOGGLE_MODAL_LOGOUT:
+        draft.toggleModalLogout = action.toggle;
         break;
 
       case SHOW_LOADER_ACTION:

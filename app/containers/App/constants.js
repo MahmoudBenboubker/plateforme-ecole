@@ -22,5 +22,7 @@ export const FETCH_NIVEAUX = 'boilerplate/App/FETCH_NIVEAUX';
 export const STORE_NIVEAUX = 'boilerplate/App/STORE_NIVEAUX';
 export const SHOW_NIVEAUX = 'boilerplate/App/SHOW_NIVEAUX';
 export const RESET_NIVEAUX = 'boilerplate/App/RESET_NIVEAUX';
+export const TOGGLE_MODAL_LOGOUT = 'boilerplate/App/TOGGLE_MODAL_LOGOUT';
+export const LOGGING_OUT = 'boilerplate/App/LOGGING_OUT';
 export const LOGIN_CREDENTIALS_LOGIN =
   'boilerplate/App/LOGIN_CREDENTIALS_LOGIN';

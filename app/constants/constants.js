@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable prettier/prettier */
 export const niveaux = [
   {
@@ -37,7 +38,7 @@ export const niveaux = [
   },
 ];
 
-export const mainColor = '#207537';
+export const mainColor = '#0DC8B2';
 
 export const regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 

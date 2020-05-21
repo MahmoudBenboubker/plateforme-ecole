@@ -35,7 +35,8 @@ import reducer from './reducer';
 import { niveaux } from '../../constants/constants';
 
 import GlobalStyle from '../../global-styles';
-import Login from '../../components/Login';
+import Login from '../../components/Login/Loadable';
+import Logout from '../../components/Logout/Loadable';
 
 import {
   makeSelectToggleModalLogin,
@@ -43,6 +44,7 @@ import {
   selectToasts,
   selectUserState,
   selectShowNiveaux,
+  makeSelectToggleModalLogout,
 } from './selectors';
 import {
   toggleModalLoginAction,
@@ -50,6 +52,8 @@ import {
   updateUserStateAction,
   fetchNiveauxAction,
   resetNiveauxAction,
+  toggleModalLogoutAction,
+  loggingOutAction,
 } from './actions';
 // eslint-disable-next-line import/no-unresolved
 
@@ -83,14 +87,21 @@ const loader = (
 
 export function App({
   toggleModalLogin,
+  toggleModalLogout,
   openModalLogin,
   isLoading,
   loginCredentials,
   toasts,
   userState,
+  loggingOut,
+  openModalLogOut,
 }) {
   const logIn = data => {
     loginCredentials(data);
+  };
+
+  const logOut = () => {
+    loggingOut();
   };
 
   useEffect(() => {
@@ -118,6 +129,7 @@ export function App({
         ))}
         <Header
           openModal={() => toggleModalLogin(true)}
+          openLogOutModal={() => toggleModalLogout(true)}
           niveaux={niveaux}
           userState={userState}
         />
@@ -134,6 +146,13 @@ export function App({
             closeModal={() => toggleModalLogin(false)}
           />
         )}
+        {openModalLogOut && (
+          <Logout
+            open
+            logOutHandler={logOut}
+            closeModal={() => toggleModalLogout(false)}
+          />
+        )}
         {/* <Footer /> */}
         <GlobalStyle />
       </div>
@@ -143,11 +162,14 @@ export function App({
 
 App.propTypes = {
   toggleModalLogin: PropTypes.func,
+  toggleModalLogout: PropTypes.func,
   openModalLogin: PropTypes.bool.isRequired,
   loginCredentials: PropTypes.func,
+  loggingOut: PropTypes.func,
   isLoading: PropTypes.bool.isRequired,
   toasts: PropTypes.array.isRequired,
   userState: PropTypes.bool.isRequired,
+  openModalLogOut: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -156,6 +178,7 @@ const mapStateToProps = createStructuredSelector({
   toasts: selectToasts,
   userState: selectUserState,
   showNiveaux: selectShowNiveaux,
+  openModalLogOut: makeSelectToggleModalLogout,
 });
 
 const mapDispatchToProps = dispatch =>
@@ -166,6 +189,8 @@ const mapDispatchToProps = dispatch =>
       updateUserState: updateUserStateAction,
       fetchNiveaux: fetchNiveauxAction,
       resetNiveaux: resetNiveauxAction,
+      toggleModalLogout: toggleModalLogoutAction,
+      loggingOut: loggingOutAction,
     },
     dispatch,
   );

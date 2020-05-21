@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 
 const anchorLeft = 'left';
 
-function Header({ niveaux, openModal, userState }) {
+function Header({ niveaux, openModal, userState, openLogOutModal }) {
   const classes = useStyles();
   const [state, setState] = React.useState({
     left: false,
@@ -115,7 +115,11 @@ function Header({ niveaux, openModal, userState }) {
               CONNEXION
             </Button>
           )}
-          {userState && <Button color="inherit">DECONNEXION</Button>}
+          {userState && (
+            <Button onClick={() => openLogOutModal()} color="inherit">
+              DECONNEXION
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
       {['left', 'right', 'top', 'bottom'].map(anchor => (
@@ -137,6 +141,7 @@ Header.propTypes = {
   niveaux: PropTypes.array.isRequired,
   openModal: PropTypes.func,
   userState: PropTypes.bool.isRequired,
+  openLogOutModal: PropTypes.func,
 };
 
 export default Header;

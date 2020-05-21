@@ -29,6 +29,8 @@ import {
   FETCH_NIVEAUX,
   STORE_NIVEAUX,
   RESET_NIVEAUX,
+  TOGGLE_MODAL_LOGOUT,
+  LOGGING_OUT,
 } from './constants';
 
 /**
@@ -135,5 +137,18 @@ export function storeNiveauxAction(niveaux) {
 export function resetNiveauxAction() {
   return {
     type: RESET_NIVEAUX,
+  };
+}
+
+export function toggleModalLogoutAction(toggle) {
+  return {
+    type: TOGGLE_MODAL_LOGOUT,
+    toggle,
+  };
+}
+
+export function loggingOutAction() {
+  return {
+    type: LOGGING_OUT,
   };
 }

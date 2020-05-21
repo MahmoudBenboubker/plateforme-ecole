@@ -1,7 +1,11 @@
 /* eslint-disable prettier/prettier */
-import { takeLatest, all, call, put, takeEvery } from 'redux-saga/effects';
+import { takeLatest, all, call, put } from 'redux-saga/effects';
 // import { loginCredentialsAction } from './actions';
-import { LOGIN_CREDENTIALS_LOGIN, FETCH_NIVEAUX } from './constants';
+import {
+  LOGIN_CREDENTIALS_LOGIN,
+  FETCH_NIVEAUX,
+  LOGGING_OUT,
+} from './constants';
 import { callApi } from '../../services/saga';
 import history from '../../utils/history';
 import AccessTokenStorage from '../../services/storage/AccessTokenStorage';
@@ -12,6 +16,7 @@ import {
   toggleModalLoginAction,
   updateUserStateAction,
   storeNiveauxAction,
+  toggleModalLogoutAction,
 } from './actions';
 import { TOAST_SUCCESS, TOAST_ERROR } from '../../constants/constants';
 
@@ -88,6 +93,18 @@ function* watchFetchNiveaux() {
   yield takeLatest(FETCH_NIVEAUX, fetchNiveauxSaga);
 }
 
+function* logOutSaga() {
+  AccessTokenStorage.clear();
+  yield put(addToastAction('Déconnexion réussie', TOAST_SUCCESS));
+  yield put(toggleModalLogoutAction(false));
+  yield put(updateUserStateAction(false));
+
+}
+
+function* watchLogOut() {
+  yield takeLatest(LOGGING_OUT, logOutSaga);
+}
+
 export default function* rootSaga() {
-  yield all([watchLogin(), watchFetchNiveaux()]);
+  yield all([watchLogin(), watchFetchNiveaux(), watchLogOut()]);
 }

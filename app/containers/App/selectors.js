@@ -34,6 +34,11 @@ const makeSelectToggleModalLogin = createSelector(
   subState => subState.toggleModalLogin,
 );
 
+const makeSelectToggleModalLogout = createSelector(
+  selectGlobal,
+  subState => subState.toggleModalLogout,
+);
+
 const makeSelectCurrentUser = () =>
   createSelector(
     selectGlobal,
@@ -76,4 +81,5 @@ export {
   selectToasts,
   selectUserState,
   selectShowNiveaux,
+  makeSelectToggleModalLogout,
 };

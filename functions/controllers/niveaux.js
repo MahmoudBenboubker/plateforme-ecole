@@ -18,23 +18,41 @@ exports.getAllNiveaux = (request, response) => {
       return response.json(err);
     });
 };
-
-exports.getAllNiveauxWithSousNiveaux = (request, response) => {
+exports.getAllNiveauxWithSubNiveaux = (request, response) => {
+  const niveaux = [];
+  const subNiveaux = [];
   db.collection('niveaux')
     .get()
     .then(data => {
-      let niveaux = [];
-      console.log('data', data);
       data.forEach(doc => {
-        console.log('id', doc.id);
         niveaux.push(doc.data());
       });
-
-      niveaux.forEach(niveau => {
-      });
+      return niveaux;
     })
+    .then(
+      db
+        .collection('subNiveaux')
+        .get()
+        .then(data => {
+          data.forEach(doc => {
+            subNiveaux.push(doc.data());
+          });
+          niveaux.forEach(niveau => {
+            // console.log('niveau', niveau.id);
+            niveau.subNiveaux = [];
+            subNiveaux.forEach(subNiveau => {
+              // console.log('subNiveau', subNiveau.niveauId);
+              if (niveau.id === subNiveau.niveauId) {
+                // console.log('subNiveau', subNiveau);
+                niveau.subNiveaux.push(subNiveau);
+              }
+            });
+          });
+          return niveaux;
+        })
+        .then(resp => response.json(resp)),
+    )
     .catch(err => {
-      console.error(err);
       return response.json(err);
     });
 };

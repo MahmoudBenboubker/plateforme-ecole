@@ -97,6 +97,7 @@ function* logOutSaga() {
   AccessTokenStorage.clear();
   yield put(addToastAction('Déconnexion réussie', TOAST_SUCCESS));
   yield put(toggleModalLogoutAction(false));
+  yield history.push('/');
   yield put(updateUserStateAction(false));
 
 }

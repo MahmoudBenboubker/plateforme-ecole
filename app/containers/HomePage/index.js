@@ -41,7 +41,6 @@ export function HomePage({ fetchNiveaux, niveauxSaga }) {
   useInjectSaga({ key, saga });
 
   useEffect(() => {
-    // When initial state username is not null, submit the form to load repos
     fetchNiveaux();
   }, []);
 

@@ -19,6 +19,26 @@ exports.getAllNiveaux = (request, response) => {
     });
 };
 
+exports.getAllNiveauxWithSousNiveaux = (request, response) => {
+  db.collection('niveaux')
+    .get()
+    .then(data => {
+      let niveaux = [];
+      console.log('data', data);
+      data.forEach(doc => {
+        console.log('id', doc.id);
+        niveaux.push(doc.data());
+      });
+
+      niveaux.forEach(niveau => {
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      return response.json(err);
+    });
+};
+
 exports.getNiveauById = (req, response) => {
   const idNiveau = req.params.id;
   db.collection('niveaux')

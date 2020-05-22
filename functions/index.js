@@ -8,6 +8,7 @@ const {
   postNiveau,
   deleteNiveauById,
   putNiveau,
+  getAllNiveauxWithSousNiveaux,
 } = require('./controllers/niveaux');
 const {
   getSubNiveauxByNiveau,
@@ -31,6 +32,7 @@ const FBAuth = require('./util/middleware');
 // ++++++++++++++++++++++++++++++
 
 app.get('/niveaux', getAllNiveaux);
+app.get('/niveauxWithSousNiveaux', getAllNiveauxWithSousNiveaux);
 app.get('/niveau/:id', getNiveauById);
 app.delete('/niveau/:id', FBAuth, deleteNiveauById);
 app.post('/niveaux', FBAuth, postNiveau);

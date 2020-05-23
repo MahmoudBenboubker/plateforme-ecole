@@ -8,20 +8,24 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
-
+import { compose, bindActionCreators } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import SignIn from '../../components/SignIn';
+
 import makeSelectInscription from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import messages from './messages';
+import { signInAction } from './actions';
 
-export function Inscription() {
+export function Inscription({ signIn }) {
   useInjectReducer({ key: 'inscription', reducer });
   useInjectSaga({ key: 'inscription', saga });
+
+  const signingIn = credentials => {
+    signIn(credentials);
+  };
 
   return (
     <div>
@@ -29,24 +33,27 @@ export function Inscription() {
         <title>Inscription</title>
         <meta name="description" content="Description of Inscription" />
       </Helmet>
-      <FormattedMessage {...messages.header} />
+      <SignIn signIn={signingIn} />
     </div>
   );
 }
 
 Inscription.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  // dispatch: PropTypes.func.isRequired,
+  signIn: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
   inscription: makeSelectInscription(),
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      signIn: signInAction,
+    },
     dispatch,
-  };
-}
+  );
 
 const withConnect = connect(
   mapStateToProps,

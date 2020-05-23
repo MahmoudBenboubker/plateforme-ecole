@@ -27,7 +27,6 @@ function* callApi(
   errorAction = () => {},
 ) {
   try {
-    
     let response;
     const options = {
       method: methodHttp,
@@ -39,15 +38,8 @@ function* callApi(
     if (useLoader) {
       yield put(showLoaderAction(true));
     }
-    let data = requestBody;
+    const data = requestBody;
     // data = yield call(requestBody);
-    if (
-      ['POST', 'PUT'].indexOf(options.method.toLocaleUpperCase()) !== -1 &&
-      data &&
-      options.headers['Content-Type'] === 'application/json'
-    ) {
-      data = yield call(requestBody);
-    }
     if (requestBody) {
       response = yield requestWithAuth(url, { ...options, body: data });
     } else {

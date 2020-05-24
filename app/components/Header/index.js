@@ -1,7 +1,8 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -19,6 +20,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import MoreIcon from '@material-ui/icons/MoreVert';
+import { Menu, MenuItem } from '@material-ui/core';
+import history from '../../utils/history';
 import { mainColor } from '../../constants/constants';
 
 const useStyles = makeStyles(theme => ({
@@ -56,6 +60,17 @@ function Header({ niveaux, openModal, userState, openLogOutModal }) {
     }
 
     setState({ ...state, [anchor]: open });
+  };
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleMenu = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   const list = anchor => (
@@ -108,15 +123,56 @@ function Header({ niveaux, openModal, userState, openLogOutModal }) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            <SchoolIcon />
+            <div onClick={() => history.push('/')}>
+              <SchoolIcon />
+            </div>
           </Typography>
           {!userState && (
-            <Button onClick={() => openModal()} color="inherit">
-              CONNEXION
-            </Button>
+            <div>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <MoreIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={() => openModal()}>Connexion</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    history.push('/inscription');
+                  }}
+                >
+                  Inscription
+                </MenuItem>
+              </Menu>
+            </div>
           )}
           {userState && (
-            <Button onClick={() => openLogOutModal()} color="inherit">
+            <Button
+              onClick={() => {
+                handleClose();
+                openLogOutModal();
+              }}
+              color="inherit"
+            >
               DECONNEXION
             </Button>
           )}

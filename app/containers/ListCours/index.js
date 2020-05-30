@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import { Grid } from '@material-ui/core';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -18,6 +19,8 @@ import reducer from './reducer';
 import saga from './saga';
 
 import CoursFilter from '../../components/CoursFilter/Loadable';
+import CoursCard from '../../components/CoursCard/Loadable';
+import CustomGrid from '../../components/CustomGrid';
 
 export function ListCours() {
   useInjectReducer({ key: 'listCours', reducer });
@@ -30,6 +33,13 @@ export function ListCours() {
         <meta name="description" content="Description of ListCours" />
       </Helmet>
       <CoursFilter />
+      <div style={{ marginLeft: 8 }}>
+        <CustomGrid justify="flex-start">
+          <Grid item>
+            <CoursCard />
+          </Grid>
+        </CustomGrid>
+      </div>
     </div>
   );
 }

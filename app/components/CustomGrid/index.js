@@ -23,13 +23,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function CustomGrid({ children }) {
+function CustomGrid({ children, justify }) {
   const spacing = 3;
   const classes = useStyles();
   return (
     <Grid container className={classes.root} spacing={2}>
       <Grid item xs={12}>
-        <Grid container justify="center" spacing={spacing}>
+        <Grid container justify={justify} spacing={spacing}>
           {/* {niveaux.map(niveau => (
             <Grid key={niveau.id} item>
               <NiveauPaper key={niveau.id} niveau={niveau} />
@@ -42,11 +42,16 @@ function CustomGrid({ children }) {
   );
 }
 
+CustomGrid.defaultProps = {
+  justify: 'center',
+};
+
 CustomGrid.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
+  justify: PropTypes.string,
 };
 
 export default memo(CustomGrid);

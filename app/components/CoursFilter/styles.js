@@ -17,6 +17,9 @@ export default makeStyles(() => ({
     fontSize: 14,
     // fontWeight: 500,
     textTransform: 'uppercase',
+    clear: 'both',
+    display: 'inline-block',
+    whiteSpace: 'nowrap',
   },
   history: {
     borderLeft: '1px solid #EDEDED',

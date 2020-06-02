@@ -26,13 +26,17 @@ export function ListCours() {
   useInjectReducer({ key: 'listCours', reducer });
   useInjectSaga({ key: 'listCours', saga });
 
+  const coursFilter = filter => {
+    console.log(filter);
+  };
+
   return (
     <div>
       <Helmet>
         <title>Cours de Niveau/Sous Niveau</title>
         <meta name="description" content="Description of ListCours" />
       </Helmet>
-      <CoursFilter />
+      <CoursFilter filter={coursFilter} />
       <div style={{ marginLeft: 8 }}>
         <CustomGrid justify="flex-start">
           <Grid item>

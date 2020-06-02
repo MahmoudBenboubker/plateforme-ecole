@@ -20,6 +20,7 @@ import FeaturePage from 'containers/FeaturePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Inscription from 'containers/Inscription/Loadable';
 import ListCours from 'containers/ListCours/Loadable';
+import AdminInterface from 'containers/AdminInterface/Loadable';
 
 import Header from 'components/Header';
 // import Footer from 'components/Footer';
@@ -140,6 +141,7 @@ export function App({
           <Route exact path="/" component={HomePage} />
           <Route path="/features" component={FeaturePage} />
           <Route path="/cours" component={ListCours} />
+          <Route path="/admin" component={AdminInterface} />
           <Route path="/inscription" component={Inscription} />
           <Route path="" component={NotFoundPage} />
         </Switch>

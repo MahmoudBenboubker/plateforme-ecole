@@ -21,6 +21,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import { Menu, MenuItem } from '@material-ui/core';
 import history from '../../utils/history';
 import { mainColor } from '../../constants/constants';
@@ -83,7 +86,7 @@ function Header({ niveaux, openModal, userState, openLogOutModal }) {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        <ListItem button key="Home">
+        <ListItem onClick={() => history.push('/')} button key="Home">
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
@@ -98,6 +101,54 @@ function Header({ niveaux, openModal, userState, openLogOutModal }) {
             <ListItemText primary={text.name} />
           </ListItem>
         ))}
+        <Divider />
+
+        {userState && (
+          <ListItem
+            button
+            onClick={() => {
+              openLogOutModal();
+            }}
+            key="Deconnexion"
+          >
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primary="Deconnexion" />
+          </ListItem>
+        )}
+
+        {!userState && (
+          <>
+            <ListItem button onClick={() => openModal()} key="Connexion">
+              <ListItemIcon>
+                <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText primary="Connexion" />
+            </ListItem>
+            <ListItem
+              button
+              onClick={() => {
+                history.push('/inscription');
+              }}
+              key="Inscription"
+            >
+              <ListItemIcon>
+                <AssignmentIcon />
+              </ListItemIcon>
+              <ListItemText primary="Inscription" />
+            </ListItem>
+          </>
+        )}
+        <Divider />
+        {userState && (
+          <ListItem button onClick={() => history.push('/admin')} key="Admin">
+            <ListItemIcon>
+              <SupervisorAccountIcon />
+            </ListItemIcon>
+            <ListItemText primary="Interface Administrateur" />
+          </ListItem>
+        )}
       </List>
     </div>
   );

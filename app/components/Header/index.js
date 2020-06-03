@@ -174,8 +174,10 @@ function Header({ niveaux, openModal, userState, openLogOutModal }) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            <div onClick={() => history.push('/')}>
-              <SchoolIcon />
+            <div>
+              <IconButton onClick={() => history.push('/')}>
+                <SchoolIcon color="action" />
+              </IconButton>
             </div>
           </Typography>
           {!userState && (

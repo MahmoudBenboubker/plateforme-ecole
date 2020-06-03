@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   },
 });
 
-function AdminNiveaux({ niveaux, fetchClasses }) {
+function AdminNiveaux({ niveaux, fetchClasses, chooseSousNiveau }) {
   const classes = useStyles();
   return (
     <Paper style={{ margin: 24, height: '100%' }}>
@@ -42,7 +42,14 @@ function AdminNiveaux({ niveaux, fetchClasses }) {
                   <TreeItem
                     nodeId={subNiveau.id}
                     id={subNiveau.id}
-                    onLabelClick={() => fetchClasses(subNiveau.id)}
+                    onLabelClick={() => {
+                      chooseSousNiveau(
+                        subNiveau.name,
+                        subNiveau.id,
+                        niveau.name,
+                      );
+                      fetchClasses(subNiveau.id);
+                    }}
                     label={subNiveau.name}
                   />
                 ))}
@@ -58,6 +65,7 @@ function AdminNiveaux({ niveaux, fetchClasses }) {
 AdminNiveaux.propTypes = {
   niveaux: PropTypes.array.isRequired,
   fetchClasses: PropTypes.func.isRequired,
+  chooseSousNiveau: PropTypes.func.isRequired,
 };
 
 export default memo(AdminNiveaux);

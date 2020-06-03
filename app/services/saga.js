@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { call, put, all } from 'redux-saga/effects';
+import { put, all } from 'redux-saga/effects';
 import {
   showLoaderAction,
   addToastAction,
@@ -32,6 +32,7 @@ function* callApi(
       method: methodHttp,
       headers: {
         'Content-Type': 'application/json',
+       
       },
     };
 

@@ -8,6 +8,7 @@ const requestWithAuth = (url, options) => {
     ...options,
     headers: {
       ...options.headers,
+      'Access-Control-Allow-Origin': '*',
       Authorization: AccessTokenStorage.getAccessToken(),
     },
   };

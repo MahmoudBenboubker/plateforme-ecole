@@ -31,7 +31,7 @@ export const checkStatus = response => {
 
 export const request = (url, options) => {
   const headers = options && options.headers ? options.headers : {};
-  return fetch(`${HOSTNAME}/api${url}`, {
+  return fetch(`https://cors-anywhere.herokuapp.com/${HOSTNAME}/api${url}`, {
     ...options,
     headers: {
       'Accept-Language': 'fr',
@@ -45,7 +45,7 @@ export const request = (url, options) => {
 
 export const requestClear = (url, options) => {
   const headers = options && options.headers ? options.headers : {};
-  return fetch(`${HOSTNAME}/api${url}`, {
+  return fetch(`https://cors-anywhere.herokuapp.com/${HOSTNAME}/api${url}`, {
     ...options,
     headers: {
       'Accept-Language': 'fr',
@@ -61,13 +61,33 @@ export const requestLogin = (url, options) => {
   const headers = options && options.headers ? options.headers : {};
   console.log('headers', headers);
 
-  return fetch(`${HOSTNAME}/api${url}`, {
+  return fetch(`https://cors-anywhere.herokuapp.com/${HOSTNAME}/api${url}`, {
     method: 'POST',
     ...options,
     headers: {
       'Accept-Language': 'fr',
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
+      ...headers,
+    },
+  })
+    .then(checkStatus)
+    .then(parseJSON);
+};
+
+export const requestLogged = (url, options) => {
+  const headers = options && options.headers ? options.headers : {};
+  console.log('headers', headers);
+  const token = localStorage.getItem('access_token');
+
+  return fetch(`https://cors-anywhere.herokuapp.com/${HOSTNAME}/api${url}`, {
+    method: 'POST',
+    ...options,
+    headers: {
+      'Accept-Language': 'fr',
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
       ...headers,
     },
   })

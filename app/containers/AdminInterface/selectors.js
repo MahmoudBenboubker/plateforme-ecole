@@ -12,6 +12,22 @@ const selectAdminInterfaceDomain = state =>
  * Other specific selectors
  */
 
+const selectClasses = () =>
+  createSelector(
+    selectAdminInterfaceDomain,
+    substate => substate.classes,
+  );
+const selectModal = () =>
+  createSelector(
+    selectAdminInterfaceDomain,
+    substate => substate.modalState,
+  );
+const selectCurrentSousNiveau = () =>
+  createSelector(
+    selectAdminInterfaceDomain,
+    substate => substate.currentSousNiveau,
+  );
+
 /**
  * Default selector used by AdminInterface
  */
@@ -23,4 +39,9 @@ const makeSelectAdminInterface = () =>
   );
 
 export default makeSelectAdminInterface;
-export { selectAdminInterfaceDomain };
+export {
+  selectAdminInterfaceDomain,
+  selectClasses,
+  selectModal,
+  selectCurrentSousNiveau,
+};

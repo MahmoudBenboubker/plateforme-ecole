@@ -19,6 +19,7 @@ const {
   getClasseBySubNiveau,
   postClasseBySubNiveau,
   putClasseBySubNiveau,
+  deleteClasseById,
 } = require('./controllers/classes');
 const {
   postResourceByClasse,
@@ -53,6 +54,7 @@ app.put('/subNiveau/:id', FBAuth, putSubNiveauxByNiveau);
 app.get('/classes/:id', getClasseBySubNiveau);
 app.post('/classes/:id', FBAuth, postClasseBySubNiveau);
 app.put('/classes/:id', FBAuth, putClasseBySubNiveau);
+app.delete('/classes/:id', FBAuth, deleteClasseById);
 
 // ++++++++++++++++++++++++++++++
 // Resource Route

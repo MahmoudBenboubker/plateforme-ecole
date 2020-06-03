@@ -16,6 +16,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { IconButton } from '@material-ui/core';
+import { green } from '@material-ui/core/colors';
+import DescriptionIcon from '@material-ui/icons/Description';
+import notFound from '../../images/not-found.svg';
+import { GreenButton } from '../CustomizedElements/CustomizedElements';
 
 const useStyles = makeStyles({
   table: {
@@ -23,58 +30,94 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
-function CrudInterface() {
-  const classes = useStyles();
-
+function CrudInterface({ classes, addCours, current }) {
+  const classes1 = useStyles();
   return (
-    <Paper style={{ margin: 24, height: '100%' }}>
-      <div style={{ margin: 8 }}>
-        <Typography variant="h6" style={{ margin: 8 }}>
+    <Paper style={{ margin: 18, height: '100%', width: '100%' }}>
+      <div style={{ margin: 0 }}>
+        <Typography variant="h6" style={{ margin: 8, marginBottom: 24 }}>
           Gestion des classes
         </Typography>
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Dessert (100g serving)</TableCell>
-                <TableCell align="right">Calories</TableCell>
-                <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                <TableCell align="right">Protein&nbsp;(g)</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map(row => (
-                <TableRow key={row.name}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
-                  <TableCell align="right">{row.carbs}</TableCell>
-                  <TableCell align="right">{row.protein}</TableCell>
+        {classes[0] === undefined && (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'column',
+              marginLeft: '40%',
+            }}
+          >
+            <img
+              src={notFound}
+              style={{ width: '25%', height: '25%' }}
+              alt="notfound"
+            />
+            <Typography style={{ justifyContent: 'center' }}>
+              Pas de classes trouvées, veuillez en créer une.{' '}
+            </Typography>
+          </div>
+        )}
+        {!(classes[0] === undefined) && (
+          <TableContainer component={Paper}>
+            <Table className={classes1.table} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Nom de la classe</TableCell>
+                  <TableCell>Modifier</TableCell>
+                  <TableCell>Supprimer</TableCell>
+                  <TableCell>Documents</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {classes.map(row => (
+                  <TableRow key={row.name}>
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                      <IconButton>
+                        <EditIcon style={{ color: green[500] }} />
+                      </IconButton>
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                      <IconButton>
+                        <DeleteIcon color="secondary" />
+                      </IconButton>
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                      <IconButton>
+                        <DescriptionIcon color="primary" />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+        <div
+          style={{
+            display: 'flex',
+            marginTop: 8,
+            marginBottom: '-8',
+            justifyContent: 'flex-end',
+          }}
+        >
+          {current && (
+            <GreenButton onClick={() => addCours(true)}>
+              Nouvelle classe
+            </GreenButton>
+          )}
+        </div>
       </div>
     </Paper>
   );
 }
 
-CrudInterface.propTypes = {};
+CrudInterface.propTypes = {
+  classes: PropTypes.array.isRequired,
+  addCours: PropTypes.func.isRequired,
+  current: PropTypes.string.isRequired,
+};
 
 export default memo(CrudInterface);

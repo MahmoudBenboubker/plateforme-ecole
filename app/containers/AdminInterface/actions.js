@@ -12,6 +12,9 @@ import {
   TOGGLE_MODAL,
   CREATE_COURS,
   CURRENT_NIVEAU,
+  CURRENT_CLASSE,
+  TOGGLE_DELETE_MODAL,
+  DELETE_CLASSE_ACTION,
 } from './constants';
 
 export function defaultAction() {
@@ -61,5 +64,26 @@ export function currentSubNiveauAction(currentSousNiveau, id, currentNiveau) {
     currentSousNiveau,
     id,
     currentNiveau,
+  };
+}
+
+export function currentClasseAction(classe) {
+  return {
+    type: CURRENT_CLASSE,
+    classe,
+  };
+}
+
+export function toggleModalDeleteAction(state) {
+  return {
+    type: TOGGLE_DELETE_MODAL,
+    state,
+  };
+}
+
+export function deleteClasseAction(classe) {
+  return {
+    type: DELETE_CLASSE_ACTION,
+    classe,
   };
 }

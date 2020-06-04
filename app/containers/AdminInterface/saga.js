@@ -1,11 +1,12 @@
 import { takeLatest, all, call, put } from 'redux-saga/effects';
 
-import { FETCH_CLASSES, CREATE_COURS } from './constants';
+import { FETCH_CLASSES, CREATE_COURS, DELETE_CLASSE_ACTION } from './constants';
 import { callApi } from '../../services/saga';
 import {
   storeClassesById,
   toggleModalAction,
   fetchClassesBySubNiveauAction,
+  toggleModalDeleteAction,
 } from './actions';
 import { showLoaderAction, addToastAction } from '../App/actions';
 import { TOAST_SUCCESS, TOAST_ERROR } from '../../constants/constants';
@@ -41,9 +42,14 @@ function* addCours(action) {
     yield put(showLoaderAction(true));
     const newClasse = { name: action.name };
     console.log(JSON.stringify(action.name));
-    const response = yield call(requestLogged, requestUrl, {
-      body: JSON.stringify(newClasse),
-    });
+    const response = yield call(
+      requestLogged,
+      requestUrl,
+      {
+        body: JSON.stringify(newClasse),
+      },
+      'POST',
+    );
     if (response) {
       yield put(addToastAction('Création réussie', TOAST_SUCCESS));
       yield put(toggleModalAction(false));
@@ -62,8 +68,33 @@ function* addCours(action) {
 function* watchAddCours() {
   yield takeLatest(CREATE_COURS, addCours);
 }
+
+function* deleteCoursSaga(action) {
+  console.log(action);
+  try {
+    const requestUrl = `/classes/${action.classe.id}`;
+    yield put(showLoaderAction(true));
+    const response = yield call(requestLogged, requestUrl, null, 'DELETE');
+    if (response) {
+      yield put(addToastAction('Suppression réussie', TOAST_SUCCESS));
+      yield put(toggleModalDeleteAction(false));
+      yield put(fetchClassesBySubNiveauAction(action.classe.subNiveauId));
+    } else {
+      yield put(addToastAction('Suppression échouée', TOAST_ERROR));
+    }
+    yield put(showLoaderAction(false));
+  } catch (e) {
+    yield put(addToastAction('Suppression échouée', TOAST_ERROR));
+    console.error(e);
+    yield put(showLoaderAction(false));
+  }
+}
+
+function* watchDeleteCours() {
+  yield takeLatest(DELETE_CLASSE_ACTION, deleteCoursSaga);
+}
 // Individual exports for testing
 export default function* adminInterfaceSaga() {
   // See example in containers/HomePage/saga.js
-  yield all([watchFetchClasses(), watchAddCours()]);
+  yield all([watchFetchClasses(), watchAddCours(), watchDeleteCours()]);
 }

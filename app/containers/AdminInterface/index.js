@@ -16,6 +16,8 @@ import { selectShowNiveaux } from 'containers/App/selectors';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import Grid from '@material-ui/core/Grid';
+import WarningIcon from '@material-ui/icons/Warning';
+
 import TextField from '@material-ui/core/TextField';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -24,6 +26,8 @@ import makeSelectAdminInterface, {
   selectClasses,
   selectModal,
   selectCurrentSousNiveau,
+  selectModalDelete,
+  selectCurrentClasse,
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -33,13 +37,19 @@ import {
   toggleModalAction,
   currentSubNiveauAction,
   createCoursName,
+  currentClasseAction,
+  toggleModalDeleteAction,
+  deleteClasseAction,
 } from './actions';
 import CrudInterface from '../../components/CrudInterface/Loadable';
 import CustomGrid from '../../components/CustomGrid';
 import CustomModal from '../../components/CustomModal';
 import useStyles from '../../components/Login/styles';
-import { GreenButton } from '../../components/CustomizedElements/CustomizedElements';
-import { formHasErrors } from '../../constants/constants';
+import {
+  GreenButton,
+  GreenButtonOutlined,
+} from '../../components/CustomizedElements/CustomizedElements';
+import { formHasErrors, mainColor } from '../../constants/constants';
 
 export function AdminInterface({
   fetchNiveaux,
@@ -51,6 +61,11 @@ export function AdminInterface({
   currentSousNiveau,
   clickSousNiveau,
   createCours,
+  modalDeleteState,
+  clickCours,
+  togglingModalDelete,
+  currentClasse,
+  deleteCoursModal,
 }) {
   useInjectReducer({ key: 'adminInterface', reducer });
   useInjectSaga({ key: 'adminInterface', saga });
@@ -65,6 +80,11 @@ export function AdminInterface({
 
   const currentingSousNiveau = (name, id, niveauName) => {
     clickSousNiveau(name, id, niveauName);
+  };
+
+  const currentingClasse = classe => {
+    clickCours(classe);
+    togglingModalDelete(true);
   };
 
   const classes = useStyles();
@@ -101,10 +121,12 @@ export function AdminInterface({
               current={currentSousNiveau}
               classes={classesSaga}
               addCours={toToggleModal}
+              deleteCours={currentingClasse}
             />
           </Grid>
         </CustomGrid>
       </div>
+      {/* Modal Ajout */}
       <CustomModal
         open={modalState}
         id="create"
@@ -174,6 +196,52 @@ export function AdminInterface({
           )}
         </Formik>
       </CustomModal>
+      {/* Modal Suppression */}
+      <CustomModal
+        open={modalDeleteState}
+        id="delete"
+        maxWidth="800"
+        title="Suppression de classe"
+        onClose={() => togglingModalDelete(false)}
+      >
+        <div className={classes.container}>
+          <div className={classes.subContainer}>
+            <div
+              style={{
+                textAlign: 'center',
+                padding: '18px 0',
+              }}
+            >
+              <WarningIcon fontSize="large" htmlColor={mainColor} />
+            </div>
+            <div className={classes.textInformation}>
+              Voulez-vous vraiment supprimer la classe{' '}
+              <b>{currentClasse.name}</b>?
+            </div>
+            <div
+              style={{ justifyContent: 'flex-end' }}
+              className={classes.rowButtonsContainer}
+            >
+              <div className={classes.buttonContainer}>
+                <GreenButtonOutlined
+                  onClick={() => togglingModalDelete(false)}
+                  id="cancelLogout"
+                >
+                  Annuler
+                </GreenButtonOutlined>
+                <GreenButton
+                  id="validerBtn"
+                  style={{ marginRight: 0 }}
+                  type="submit"
+                  onClick={() => deleteCoursModal(currentClasse)}
+                >
+                  Supprimer
+                </GreenButton>
+              </div>
+            </div>
+          </div>
+        </div>
+      </CustomModal>
     </div>
   );
 }
@@ -185,10 +253,15 @@ AdminInterface.propTypes = {
   niveauxSaga: PropTypes.array.isRequired,
   classesSaga: PropTypes.array.isRequired,
   modalState: PropTypes.bool.isRequired,
+  modalDeleteState: PropTypes.bool.isRequired,
   togglingModal: PropTypes.func.isRequired,
+  togglingModalDelete: PropTypes.func.isRequired,
   currentSousNiveau: PropTypes.string.isRequired,
+  currentClasse: PropTypes.string.isRequired,
   clickSousNiveau: PropTypes.func.isRequired,
+  clickCours: PropTypes.func.isRequired,
   createCours: PropTypes.func.isRequired,
+  deleteCoursModal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -196,7 +269,9 @@ const mapStateToProps = createStructuredSelector({
   niveauxSaga: selectShowNiveaux(),
   classesSaga: selectClasses(),
   modalState: selectModal(),
+  modalDeleteState: selectModalDelete(),
   currentSousNiveau: selectCurrentSousNiveau(),
+  currentClasse: selectCurrentClasse(),
 });
 
 const mapDispatchToProps = dispatch =>
@@ -205,8 +280,11 @@ const mapDispatchToProps = dispatch =>
       fetchNiveaux: fetchNiveauxAction,
       fetchClasses: fetchClassesBySubNiveauAction,
       togglingModal: toggleModalAction,
+      togglingModalDelete: toggleModalDeleteAction,
       clickSousNiveau: currentSubNiveauAction,
       createCours: createCoursName,
+      clickCours: currentClasseAction,
+      deleteCoursModal: deleteClasseAction,
     },
     dispatch,
   );

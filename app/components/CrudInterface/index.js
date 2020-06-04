@@ -30,7 +30,7 @@ const useStyles = makeStyles({
   },
 });
 
-function CrudInterface({ classes, addCours, current }) {
+function CrudInterface({ classes, addCours, current, deleteCours }) {
   const classes1 = useStyles();
   return (
     <Paper style={{ margin: 18, height: '100%', width: '100%' }}>
@@ -80,7 +80,7 @@ function CrudInterface({ classes, addCours, current }) {
                       </IconButton>
                     </TableCell>
                     <TableCell component="th" scope="row">
-                      <IconButton>
+                      <IconButton onClick={() => deleteCours(row)}>
                         <DeleteIcon color="secondary" />
                       </IconButton>
                     </TableCell>
@@ -117,6 +117,7 @@ function CrudInterface({ classes, addCours, current }) {
 CrudInterface.propTypes = {
   classes: PropTypes.array.isRequired,
   addCours: PropTypes.func.isRequired,
+  deleteCours: PropTypes.func.isRequired,
   current: PropTypes.string.isRequired,
 };
 

@@ -75,13 +75,13 @@ export const requestLogin = (url, options) => {
     .then(parseJSON);
 };
 
-export const requestLogged = (url, options) => {
+export const requestLogged = (url, options, methodHttp) => {
   const headers = options && options.headers ? options.headers : {};
   console.log('headers', headers);
   const token = localStorage.getItem('access_token');
 
   return fetch(`https://cors-anywhere.herokuapp.com/${HOSTNAME}/api${url}`, {
-    method: 'POST',
+    method: methodHttp,
     ...options,
     headers: {
       'Accept-Language': 'fr',

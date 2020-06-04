@@ -22,10 +22,20 @@ const selectModal = () =>
     selectAdminInterfaceDomain,
     substate => substate.modalState,
   );
+const selectModalDelete = () =>
+  createSelector(
+    selectAdminInterfaceDomain,
+    substate => substate.modalDeleteState,
+  );
 const selectCurrentSousNiveau = () =>
   createSelector(
     selectAdminInterfaceDomain,
     substate => substate.currentSousNiveau,
+  );
+const selectCurrentClasse = () =>
+  createSelector(
+    selectAdminInterfaceDomain,
+    substate => substate.currentClasse,
   );
 
 /**
@@ -44,4 +54,6 @@ export {
   selectClasses,
   selectModal,
   selectCurrentSousNiveau,
+  selectCurrentClasse,
+  selectModalDelete,
 };

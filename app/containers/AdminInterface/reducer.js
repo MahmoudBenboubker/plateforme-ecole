@@ -9,6 +9,8 @@ import {
   STORE_CLASSES,
   TOGGLE_MODAL,
   CURRENT_NIVEAU,
+  CURRENT_CLASSE,
+  TOGGLE_DELETE_MODAL,
 } from './constants';
 
 export const initialState = {
@@ -17,6 +19,8 @@ export const initialState = {
   currentSousNiveau: '',
   currentSousNiveauName: '',
   currentNiveau: '',
+  currentClasse: {},
+  modalDeleteState: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -35,6 +39,12 @@ const adminInterfaceReducer = (state = initialState, action) =>
         break;
       case TOGGLE_MODAL:
         draft.modalState = action.state;
+        break;
+      case TOGGLE_DELETE_MODAL:
+        draft.modalDeleteState = action.state;
+        break;
+      case CURRENT_CLASSE:
+        draft.currentClasse = action.classe;
         break;
     }
   });

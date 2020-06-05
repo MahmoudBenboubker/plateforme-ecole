@@ -12,6 +12,8 @@ import {
   CREATE_DOCUMENT_ACTION,
   TOGGLE_MODAL_ADD_ACTION,
   UPLOAD_FILE_ACTION,
+  TOGGLE_MODAL_DELETE_ACTION,
+  DELETE_DOCUMENT_ACTION,
 } from './constants';
 
 export function defaultAction() {
@@ -29,6 +31,14 @@ export function toggleModalAction(state) {
 export function toggleModalAddAction(state, currentDoc) {
   return {
     type: TOGGLE_MODAL_ADD_ACTION,
+    state,
+    currentDoc,
+  };
+}
+
+export function toggleModalDeleteAction(state, currentDoc) {
+  return {
+    type: TOGGLE_MODAL_DELETE_ACTION,
     state,
     currentDoc,
   };
@@ -58,5 +68,12 @@ export function createDocumentAction(payload, idClasse) {
     type: CREATE_DOCUMENT_ACTION,
     payload,
     idClasse,
+  };
+}
+
+export function deleteDocumentAction(currentDoc) {
+  return {
+    type: DELETE_DOCUMENT_ACTION,
+    currentDoc,
   };
 }

@@ -4,6 +4,7 @@ import {
   FETCH_DOCUMENTS_ACTION,
   CREATE_DOCUMENT_ACTION,
   UPLOAD_FILE_ACTION,
+  DELETE_DOCUMENT_ACTION,
 } from './constants';
 import { callApi } from '../../services/saga';
 import {
@@ -11,6 +12,7 @@ import {
   toggleModalAction,
   fetchDocuments,
   toggleModalAddAction,
+  toggleModalDeleteAction,
 } from './actions';
 import { showLoaderAction, addToastAction } from '../App/actions';
 import {
@@ -108,10 +110,36 @@ function* uploadDocumentSaga(action) {
 function* watchUploadDocument() {
   yield takeLatest(UPLOAD_FILE_ACTION, uploadDocumentSaga);
 }
+
+function* deleteDocumentSaga(action) {
+  try {
+    const requestUrl = `/resource/${action.currentDoc.id}`;
+    yield put(showLoaderAction(true));
+    const response = yield call(requestLogged, requestUrl, null, 'DELETE');
+    if (response) {
+      yield put(addToastAction('Suppression réussie', TOAST_SUCCESS));
+      yield put(toggleModalDeleteAction(false));
+      yield put(fetchDocuments(action.currentDoc.classeId));
+    } else {
+      yield put(addToastAction('Suppression échouée', TOAST_ERROR));
+      yield put(showLoaderAction(false));
+    }
+  } catch (e) {
+    yield put(addToastAction('Suppression échouée', TOAST_ERROR));
+    yield put(showLoaderAction(false));
+
+    console.error(e);
+  }
+}
+
+function* watchDeleteDocument() {
+  yield takeLatest(DELETE_DOCUMENT_ACTION, deleteDocumentSaga);
+}
 export default function* coursInterfaceSaga() {
   yield all([
     watchFetchDocuments(),
     watchCreateDocument(),
     watchUploadDocument(),
+    watchDeleteDocument(),
   ]);
 }

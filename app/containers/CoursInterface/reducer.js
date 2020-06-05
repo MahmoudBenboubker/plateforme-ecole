@@ -8,11 +8,13 @@ import {
   TOGGLE_MODAL_ACTION,
   STORE_DOCUMENTS_ACTION,
   TOGGLE_MODAL_ADD_ACTION,
+  TOGGLE_MODAL_DELETE_ACTION,
 } from './constants';
 
 export const initialState = {
   toggleModal: false,
   toggleModalAdd: false,
+  toggleModalDelete: false,
   documents: [],
   currentDoc: {},
 };
@@ -21,6 +23,10 @@ export const initialState = {
 const coursInterfaceReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
+      case TOGGLE_MODAL_DELETE_ACTION:
+        draft.toggleModalDelete = action.state;
+        draft.currentDoc = action.currentDoc;
+        break;
       case TOGGLE_MODAL_ADD_ACTION:
         draft.toggleModalAdd = action.state;
         draft.currentDoc = action.currentDoc;

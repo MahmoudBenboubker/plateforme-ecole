@@ -22,6 +22,11 @@ const selectToggleModalAdd = () =>
     selectCoursInterfaceDomain,
     substate => substate.toggleModalAdd,
   );
+const selectToggleModalDelete = () =>
+  createSelector(
+    selectCoursInterfaceDomain,
+    substate => substate.toggleModalDelete,
+  );
 
 const selectCurrentDoc = () =>
   createSelector(
@@ -52,4 +57,5 @@ export {
   selectDocuments,
   selectToggleModalAdd,
   selectCurrentDoc,
+  selectToggleModalDelete,
 };

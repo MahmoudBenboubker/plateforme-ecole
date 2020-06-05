@@ -7,6 +7,10 @@
 export const DEFAULT_ACTION = 'app/CoursInterface/DEFAULT_ACTION';
 export const TOGGLE_MODAL_ACTION = 'app/CoursInterface/TOGGLE_MODAL_ACTION';
 export const UPLOAD_FILE_ACTION = 'app/CoursInterface/UPLOAD_FILE_ACTION';
+export const DELETE_DOCUMENT_ACTION =
+  'app/CoursInterface/DELETE_DOCUMENT_ACTION';
+export const TOGGLE_MODAL_DELETE_ACTION =
+  'app/CoursInterface/TOGGLE_MODAL_DELETE_ACTION';
 export const TOGGLE_MODAL_ADD_ACTION =
   'app/CoursInterface/TOGGLE_MODAL_ADD_ACTION';
 export const CREATE_DOCUMENT_ACTION =

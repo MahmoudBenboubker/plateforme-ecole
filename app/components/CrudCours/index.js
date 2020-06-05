@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /**
  *
  * CrudCours
@@ -20,6 +21,7 @@ import {
   Table,
   Button,
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles({
@@ -28,7 +30,7 @@ const useStyles = makeStyles({
   },
 });
 
-function CrudCours({ documents, createResource }) {
+function CrudCours({ documents, createResource, deleteResource }) {
   const classes1 = useStyles();
   return (
     <Paper style={{ margin: 18, height: '100%', width: '100%' }}>
@@ -42,6 +44,11 @@ function CrudCours({ documents, createResource }) {
           Pas de documents pour cette classe. Veuillez en ajouter.
         </Typography>
       )}
+      <Alert style={{ width: '100%' }} severity="warning">
+        Créer tout d'abord un "post" sans joindre un document. Par la suite,
+        appuyez sur "Ajouter" pour joindre le document à ce post.
+      </Alert>
+
       {!(documents[0] === undefined) && (
         <TableContainer component={Paper}>
           <Table className={classes1.table} aria-label="simple table">
@@ -94,7 +101,7 @@ function CrudCours({ documents, createResource }) {
                     {row.createdAt}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    <IconButton>
+                    <IconButton onClick={() => deleteResource(true, row)}>
                       <DeleteIcon color="secondary" />
                     </IconButton>
                   </TableCell>
@@ -111,6 +118,7 @@ function CrudCours({ documents, createResource }) {
 CrudCours.propTypes = {
   documents: PropTypes.array.isRequired,
   createResource: PropTypes.func.isRequired,
+  deleteResource: PropTypes.func.isRequired,
 };
 
 export default memo(CrudCours);

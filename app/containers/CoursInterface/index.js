@@ -21,6 +21,7 @@ import makeSelectCoursInterface, {
   selectDocuments,
   selectToggleModalAdd,
   selectCurrentDoc,
+  selectToggleModalDelete,
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -36,6 +37,8 @@ import {
   createDocumentAction,
   toggleModalAddAction,
   uploadFileAction,
+  toggleModalDeleteAction,
+  deleteDocumentAction,
 } from './actions';
 
 export function CoursInterface({
@@ -49,6 +52,9 @@ export function CoursInterface({
   currentDoc,
   modalAddState,
   uploadFile,
+  modalDeleteState,
+  toggleModalDelete,
+  deleteDocument,
 }) {
   useInjectReducer({ key: 'coursInterface', reducer });
   useInjectSaga({ key: 'coursInterface', saga });
@@ -102,7 +108,11 @@ export function CoursInterface({
           </Grid>
         </CustomGrid>
       </Paper>
-      <CrudCours documents={documents} createResource={toggleModalAdd} />
+      <CrudCours
+        documents={documents}
+        deleteResource={toggleModalDelete}
+        createResource={toggleModalAdd}
+      />
       <CustomModal
         open={modalState}
         id="create"
@@ -131,6 +141,32 @@ export function CoursInterface({
           <GreenButton onClick={sendFile}>Valider</GreenButton>
         </div>
       </CustomModal>
+
+      <CustomModal
+        open={modalDeleteState}
+        id="supprimer"
+        title="Supprimer document"
+        onClose={() => toggleModalDelete(false, {})}
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            flexDirection: 'column',
+          }}
+        >
+          Voulez-vous vraiment supprimer ce document ?
+          <GreenButton
+            style={{
+              marginTop: 12,
+            }}
+            onClick={() => deleteDocument(currentDoc)}
+          >
+            Valider
+          </GreenButton>
+        </div>
+      </CustomModal>
     </div>
   );
 }
@@ -144,8 +180,10 @@ CoursInterface.propTypes = {
   createDocument: PropTypes.func.isRequired,
   modalState: PropTypes.bool.isRequired,
   modalAddState: PropTypes.bool.isRequired,
+  modalDeleteState: PropTypes.bool.isRequired,
   currentDoc: PropTypes.object.isRequired,
   documents: PropTypes.array.isRequired,
+  deleteDocument: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -153,6 +191,7 @@ const mapStateToProps = createStructuredSelector({
   modalState: selectToggleModal(),
   documents: selectDocuments(),
   modalAddState: selectToggleModalAdd(),
+  modalDeleteState: selectToggleModalDelete(),
   currentDoc: selectCurrentDoc(),
 });
 
@@ -164,6 +203,8 @@ const mapDispatchToProps = dispatch =>
       createDocument: createDocumentAction,
       toggleModalAdd: toggleModalAddAction,
       uploadFile: uploadFileAction,
+      toggleModalDelete: toggleModalDeleteAction,
+      deleteDocument: deleteDocumentAction,
     },
     dispatch,
   );

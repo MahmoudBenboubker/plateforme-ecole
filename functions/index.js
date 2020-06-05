@@ -24,6 +24,7 @@ const {
 const {
   postResourceByClasse,
   postResourceStoreByClasse,
+  getResourcesByClasse,
 } = require('./controllers/resources');
 const { signUp, login } = require('./controllers/authentification');
 const FBAuth = require('./util/middleware');
@@ -63,6 +64,7 @@ app.delete('/classes/:id', FBAuth, deleteClasseById);
 // app.get('/classes/:id', getClasseBySubNiveau);
 app.post('/resource/:id', FBAuth, postResourceByClasse);
 app.post('/resource/store/:id', FBAuth, postResourceStoreByClasse);
+app.get('/resources/:id', getResourcesByClasse);
 // app.put('/classes/:id', FBAuth, putClasseBySubNiveau);
 
 // ++++++++++++++++++++++++++++++

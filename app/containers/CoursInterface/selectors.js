@@ -12,6 +12,18 @@ const selectCoursInterfaceDomain = state =>
  * Other specific selectors
  */
 
+const selectToggleModal = () =>
+  createSelector(
+    selectCoursInterfaceDomain,
+    substate => substate.toggleModal,
+  );
+
+const selectDocuments = () =>
+  createSelector(
+    selectCoursInterfaceDomain,
+    substate => substate.documents,
+  );
+
 /**
  * Default selector used by CoursInterface
  */
@@ -23,4 +35,4 @@ const makeSelectCoursInterface = () =>
   );
 
 export default makeSelectCoursInterface;
-export { selectCoursInterfaceDomain };
+export { selectCoursInterfaceDomain, selectToggleModal, selectDocuments };

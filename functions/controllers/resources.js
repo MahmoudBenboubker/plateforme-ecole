@@ -2,6 +2,25 @@
 const { db, admin } = require('../util/admin');
 const config = require('../util/config');
 
+// GET Resource
+exports.getResourcesByClasse = (req, res) => {
+  const idClasse = req.params.id;
+
+  db.collection('resources')
+    .where('classeId', '==', idClasse)
+    .get()
+    .then(data => {
+      let resources = [];
+      data.forEach(doc => {
+        resources.push(doc.data());
+      });
+      return res.json(resources);
+    })
+    .catch(err => {
+      console.error(err);
+      res.json({ message: 'failed' });
+    });
+};
 // No Resource
 exports.postResourceByClasse = (req, res) => {
   const idClasse = req.params.id;
@@ -14,6 +33,7 @@ exports.postResourceByClasse = (req, res) => {
     matiere: body.matiere,
     createdAt: new Date().toISOString(),
     id: `${idClasse}${body.title}`,
+    resourceUrl: '',
   };
   db.collection('resources')
     .add(newResource)
@@ -30,7 +50,6 @@ exports.postResourceByClasse = (req, res) => {
 // Resource PDF, Image ...
 exports.postResourceStoreByClasse = (req, res) => {
   const idClasse = req.params.id;
-
 
   const BusBoy = require('busboy');
   const path = require('path');
@@ -77,8 +96,8 @@ exports.postResourceStoreByClasse = (req, res) => {
 
         const newResource = {
           classeId: idClasse,
-          title: "addition",
-          matiere: "mathematiques",
+          title: 'addition',
+          matiere: 'mathematiques',
           createdAt: new Date().toISOString(),
           id: `${idClasse}$addition`,
           resourceUrl,

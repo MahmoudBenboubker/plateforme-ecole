@@ -29,7 +29,7 @@ function CustomGrid({ children, justify }) {
   return (
     <Grid container className={classes.root} spacing={2}>
       <Grid item xs={12}>
-        <Grid container justify={justify} spacing={spacing}>
+        <Grid container justify={justify} alignItems="center" spacing={spacing}>
           {/* {niveaux.map(niveau => (
             <Grid key={niveau.id} item>
               <NiveauPaper key={niveau.id} niveau={niveau} />

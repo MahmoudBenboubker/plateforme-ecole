@@ -23,6 +23,7 @@ import { green } from '@material-ui/core/colors';
 import DescriptionIcon from '@material-ui/icons/Description';
 import notFound from '../../images/not-found.svg';
 import { GreenButton } from '../CustomizedElements/CustomizedElements';
+import history from '../../utils/history';
 
 const useStyles = makeStyles({
   table: {
@@ -85,7 +86,11 @@ function CrudInterface({ classes, addCours, current, deleteCours }) {
                       </IconButton>
                     </TableCell>
                     <TableCell component="th" scope="row">
-                      <IconButton>
+                      <IconButton
+                        onClick={() =>
+                          history.push(`/classe/${row.id}/gestionCours`)
+                        }
+                      >
                         <DescriptionIcon color="primary" />
                       </IconButton>
                     </TableCell>

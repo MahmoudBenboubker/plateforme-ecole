@@ -4,15 +4,22 @@
  *
  */
 import produce from 'immer';
-import { DEFAULT_ACTION } from './constants';
+import { TOGGLE_MODAL_ACTION, STORE_DOCUMENTS_ACTION } from './constants';
 
-export const initialState = {};
+export const initialState = {
+  toggleModal: false,
+  documents: [],
+};
 
 /* eslint-disable default-case, no-param-reassign */
 const coursInterfaceReducer = (state = initialState, action) =>
-  produce(state, (/* draft */) => {
+  produce(state, draft => {
     switch (action.type) {
-      case DEFAULT_ACTION:
+      case TOGGLE_MODAL_ACTION:
+        draft.toggleModal = action.state;
+        break;
+      case STORE_DOCUMENTS_ACTION:
+        draft.documents = action.data;
         break;
     }
   });

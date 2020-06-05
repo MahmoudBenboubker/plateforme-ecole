@@ -5,7 +5,7 @@
  *
  */
 
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -13,11 +13,14 @@ import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import makeSelectCoursInterface, {
   selectToggleModal,
   selectDocuments,
+  selectToggleModalAdd,
+  selectCurrentDoc,
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -31,6 +34,8 @@ import {
   toggleModalAction,
   fetchDocuments,
   createDocumentAction,
+  toggleModalAddAction,
+  uploadFileAction,
 } from './actions';
 
 export function CoursInterface({
@@ -40,6 +45,10 @@ export function CoursInterface({
   fetchDocs,
   documents,
   createDocument,
+  toggleModalAdd,
+  currentDoc,
+  modalAddState,
+  uploadFile,
 }) {
   useInjectReducer({ key: 'coursInterface', reducer });
   useInjectSaga({ key: 'coursInterface', saga });
@@ -48,10 +57,23 @@ export function CoursInterface({
     fetchDocs(match.params.idClasse);
   }, []);
 
+  const [formDataSend, setFormData] = useState({});
+
   const funcCreateDocument = payload => {
     createDocument(payload, match.params.idClasse);
   };
   const classes = useStyles();
+
+  const handleFileUpload = event => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file, file.name);
+    setFormData(formData);
+  };
+
+  const sendFile = () => {
+    uploadFile(formDataSend, currentDoc);
+  };
 
   return (
     <div>
@@ -80,7 +102,7 @@ export function CoursInterface({
           </Grid>
         </CustomGrid>
       </Paper>
-      <CrudCours documents={documents} />
+      <CrudCours documents={documents} createResource={toggleModalAdd} />
       <CustomModal
         open={modalState}
         id="create"
@@ -92,6 +114,23 @@ export function CoursInterface({
           close={() => toggleModal(false)}
         />
       </CustomModal>
+      <CustomModal
+        open={modalAddState}
+        id="addDoc"
+        title="Ajouter lien"
+        onClose={() => toggleModalAdd(false, {})}
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+          }}
+        >
+          <TextField hidden="hidden" onChange={handleFileUpload} type="file" />
+          <GreenButton onClick={sendFile}>Valider</GreenButton>
+        </div>
+      </CustomModal>
     </div>
   );
 }
@@ -99,9 +138,13 @@ export function CoursInterface({
 CoursInterface.propTypes = {
   // dispatch: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
+  toggleModalAdd: PropTypes.func.isRequired,
   fetchDocs: PropTypes.func.isRequired,
+  uploadFile: PropTypes.func.isRequired,
   createDocument: PropTypes.func.isRequired,
   modalState: PropTypes.bool.isRequired,
+  modalAddState: PropTypes.bool.isRequired,
+  currentDoc: PropTypes.object.isRequired,
   documents: PropTypes.array.isRequired,
 };
 
@@ -109,6 +152,8 @@ const mapStateToProps = createStructuredSelector({
   coursInterface: makeSelectCoursInterface(),
   modalState: selectToggleModal(),
   documents: selectDocuments(),
+  modalAddState: selectToggleModalAdd(),
+  currentDoc: selectCurrentDoc(),
 });
 
 const mapDispatchToProps = dispatch =>
@@ -117,6 +162,8 @@ const mapDispatchToProps = dispatch =>
       toggleModal: toggleModalAction,
       fetchDocs: fetchDocuments,
       createDocument: createDocumentAction,
+      toggleModalAdd: toggleModalAddAction,
+      uploadFile: uploadFileAction,
     },
     dispatch,
   );

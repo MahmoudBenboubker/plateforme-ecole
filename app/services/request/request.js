@@ -87,7 +87,25 @@ export const requestLogged = (url, options, methodHttp) => {
       'Accept-Language': 'fr',
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
+      ...headers,
+    },
+  })
+    .then(checkStatus)
+    .then(parseJSON);
+};
+export const requestLoggedFile = (url, options, methodHttp) => {
+  const headers = options && options.headers ? options.headers : {};
+  console.log('headers', headers);
+  const token = localStorage.getItem('access_token');
+
+  return fetch(`https://cors-anywhere.herokuapp.com/${HOSTNAME}/api${url}`, {
+    method: methodHttp,
+    ...options,
+    headers: {
+      'Accept-Language': 'fr',
+      'Access-Control-Allow-Origin': '*',
+      Authorization: `Bearer ${token}`,
       ...headers,
     },
   })

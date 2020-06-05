@@ -18,6 +18,7 @@ import {
   TableContainer,
   TableHead,
   Table,
+  Button,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -27,7 +28,7 @@ const useStyles = makeStyles({
   },
 });
 
-function CrudCours({ documents }) {
+function CrudCours({ documents, createResource }) {
   const classes1 = useStyles();
   return (
     <Paper style={{ margin: 18, height: '100%', width: '100%' }}>
@@ -68,12 +69,24 @@ function CrudCours({ documents }) {
                   </TableCell>
                   {!(row.resourceUrl === '') && (
                     <TableCell component="th" scope="row">
-                      Telecharger
+                      <Button
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={row.resourceUrl}
+                        color="primary"
+                      >
+                        Ouvrir
+                      </Button>
                     </TableCell>
                   )}
                   {row.resourceUrl === '' && (
                     <TableCell component="th" scope="row">
-                      Ajouter
+                      <Button
+                        onClick={() => createResource(true, row)}
+                        color="primary"
+                      >
+                        Ajouter
+                      </Button>
                     </TableCell>
                   )}
 
@@ -97,6 +110,7 @@ function CrudCours({ documents }) {
 
 CrudCours.propTypes = {
   documents: PropTypes.array.isRequired,
+  createResource: PropTypes.func.isRequired,
 };
 
 export default memo(CrudCours);

@@ -10,6 +10,8 @@ import {
   FETCH_DOCUMENTS_ACTION,
   STORE_DOCUMENTS_ACTION,
   CREATE_DOCUMENT_ACTION,
+  TOGGLE_MODAL_ADD_ACTION,
+  UPLOAD_FILE_ACTION,
 } from './constants';
 
 export function defaultAction() {
@@ -23,10 +25,26 @@ export function toggleModalAction(state) {
     state,
   };
 }
+
+export function toggleModalAddAction(state, currentDoc) {
+  return {
+    type: TOGGLE_MODAL_ADD_ACTION,
+    state,
+    currentDoc,
+  };
+}
 export function fetchDocuments(id) {
   return {
     type: FETCH_DOCUMENTS_ACTION,
     id,
+  };
+}
+
+export function uploadFileAction(data, currentDoc) {
+  return {
+    type: UPLOAD_FILE_ACTION,
+    data,
+    currentDoc,
   };
 }
 export function storeDocumentsAction(data) {

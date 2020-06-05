@@ -16,7 +16,6 @@ import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 
 import HomePage from 'containers/HomePage/Loadable';
-import FeaturePage from 'containers/FeaturePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Inscription from 'containers/Inscription/Loadable';
 import ListCours from 'containers/ListCours/Loadable';
@@ -30,8 +29,11 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import jwtDecode from 'jwt-decode';
 
 import Toastr from '../../components/Toastr/index';
+import AuthRoute from './AuthRoute';
+import NoAuthRoute from './NoAuthRoute';
 
 import saga from './saga';
 import reducer from './reducer';
@@ -108,6 +110,20 @@ export function App({
     loggingOut();
   };
 
+  const checkAuth = () => {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      if (decodedToken.exp * 1000 < Date.now()) {
+        loggingOut();
+      }
+    }
+  };
+
+  checkAuth();
+
+  checkAuth();
+
   useEffect(() => {
     // useDispatch(fetchNiveaux());
   }, []);
@@ -140,14 +156,22 @@ export function App({
 
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route path="/features" component={FeaturePage} />
           <Route path="/cours" component={ListCours} />
-          <Route path="/admin" component={AdminInterface} />
-          <Route
+          <AuthRoute
+            path="/admin"
+            authenticated={userState}
+            component={AdminInterface}
+          />
+          <AuthRoute
             path="/classe/:idClasse/gestionCours"
+            authenticated={userState}
             component={CoursInterface}
           />
-          <Route path="/inscription" component={Inscription} />
+          <NoAuthRoute
+            authenticated={userState}
+            path="/inscription"
+            component={Inscription}
+          />
           <Route path="" component={NotFoundPage} />
         </Switch>
         {openModalLogin && (

@@ -20,6 +20,7 @@ import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CustomGrid from '../CustomGrid';
+import history from '../../utils/history';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -65,18 +66,13 @@ function NiveauPaper({ niveau }) {
             {niveau.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+            Vous trouverez les documents et les liens, de {` ${niveau.name} `},
+            classés par classe et par matières. Veuillez appuyez sur la flèche
+            pour étendre la liste.
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
@@ -94,7 +90,12 @@ function NiveauPaper({ niveau }) {
           <CustomGrid>
             {niveau.subNiveaux.map(subNiveau => (
               <Grid key={subNiveau.id} item>
-                <Button variant="outlined">{subNiveau.name}</Button>
+                <Button
+                  onClick={() => history.push(`/cours/${subNiveau.id}`)}
+                  variant="outlined"
+                >
+                  {subNiveau.name}
+                </Button>
               </Grid>
             ))}
           </CustomGrid>

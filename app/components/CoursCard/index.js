@@ -5,7 +5,7 @@
  */
 
 import React, { memo, useState } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -25,7 +25,26 @@ const useStyles = makeStyles({
   media: {},
 });
 
-function CoursCard() {
+const colorChip = matiere => {
+  switch (matiere) {
+    case 'Arabe':
+      return 'green';
+    case 'Francais':
+      return 'red';
+    case 'Anglais':
+      return 'blue';
+    case 'EducationArtistique':
+      return 'blueviolet';
+    case 'ActivitésScientifiques':
+      return 'chocolate';
+    case 'Mathématiques':
+      return 'deepskyblue';
+    default:
+      return 'red';
+  }
+};
+
+function CoursCard({ document }) {
   const classes = useStyles();
 
   const [numPages, setNumPages] = useState(null);
@@ -43,48 +62,72 @@ function CoursCard() {
     setExpanded(!expanded);
   };
 
+  const withResource = document.resourceUrl !== '';
+  console.log(withResource);
+
   return (
     <Card className={classes.root}>
       <CardActionArea>
         <CardContent>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography gutterBottom variant="h5" component="h2">
-              Titre
+              {document.title}
             </Typography>
-            <Chip color="secondary" label="Mathématique" size="small" />
+            <Chip
+              color="primary"
+              style={{ backgroundColor: colorChip(document.matiere) }}
+              label={document.matiere}
+              size="small"
+            />
           </div>
           <Typography variant="body2" color="textSecondary" component="p">
-            Description du document
+            {document.content}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Page {pageNumber} sur {numPages}
-          </Typography>
+          {withResource && (
+            <Typography variant="body2" color="textSecondary" component="p">
+              Page {pageNumber} sur {numPages}
+            </Typography>
+          )}
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Télécharger
-        </Button>
-        <Button size="small" onClick={handleExpandClick} color="primary">
-          Aperçu
-        </Button>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <div className={classes.media}>
-            <Document
-              file="https://cors-anywhere.herokuapp.com/https://firebasestorage.googleapis.com/v0/b/plateforme-ecole.appspot.com/o/311185202732.pdf?alt=media&token=60e40b2d-0432-4573-856c-e593275077de"
-              onLoadSuccess={onDocumentLoadSuccess}
-            >
-              <Page size="C9" pageNumber={pageNumber} />
-            </Document>
-          </div>
-        </CardContent>
-      </Collapse>
+      {withResource && (
+        <CardActions>
+          <Button
+            target="_blank"
+            rel="noopener noreferrer"
+            href={document.resourceUrl}
+            color="primary"
+            size="small"
+          >
+            Ouvrir
+          </Button>
+          <Button size="small" onClick={handleExpandClick} color="primary">
+            Aperçu
+          </Button>
+        </CardActions>
+      )}
+      {withResource && (
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <div className={classes.media}>
+              <Document
+                file={`https://cors-anywhere.herokuapp.com/${
+                  document.resourceUrl
+                }`}
+                onLoadSuccess={onDocumentLoadSuccess}
+              >
+                <Page size="C9" pageNumber={pageNumber} />
+              </Document>
+            </div>
+          </CardContent>
+        </Collapse>
+      )}
     </Card>
   );
 }
 
-CoursCard.propTypes = {};
+CoursCard.propTypes = {
+  document: PropTypes.object.isRequired,
+};
 
 export default memo(CoursCard);

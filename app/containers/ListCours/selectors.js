@@ -15,6 +15,18 @@ const selectListCoursDomain = state => state.listCours || initialState;
  * Default selector used by ListCours
  */
 
+const selectClasses = () =>
+  createSelector(
+    selectListCoursDomain,
+    substate => substate.classes,
+  );
+
+const selectDocuments = () =>
+  createSelector(
+    selectListCoursDomain,
+    substate => substate.documents,
+  );
+
 const makeSelectListCours = () =>
   createSelector(
     selectListCoursDomain,
@@ -22,4 +34,4 @@ const makeSelectListCours = () =>
   );
 
 export default makeSelectListCours;
-export { selectListCoursDomain };
+export { selectListCoursDomain, selectClasses, selectDocuments };

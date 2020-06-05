@@ -18,12 +18,11 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import InfoIcon from '@material-ui/icons/Info';
 import { Menu, MenuItem } from '@material-ui/core';
 import history from '../../utils/history';
 import { mainColor } from '../../constants/constants';
@@ -48,7 +47,7 @@ const useStyles = makeStyles(theme => ({
 
 const anchorLeft = 'left';
 
-function Header({ niveaux, openModal, userState, openLogOutModal }) {
+function Header({ openModal, userState, openLogOutModal }) {
   const classes = useStyles();
   const [state, setState] = React.useState({
     left: false,
@@ -93,15 +92,6 @@ function Header({ niveaux, openModal, userState, openLogOutModal }) {
           <ListItemText primary="Accueil" />
         </ListItem>
         <Divider />
-        {niveaux.map((text, index) => (
-          <ListItem button key={text.id}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text.name} />
-          </ListItem>
-        ))}
-        <Divider />
 
         {userState && (
           <ListItem
@@ -142,13 +132,22 @@ function Header({ niveaux, openModal, userState, openLogOutModal }) {
         )}
         <Divider />
         {userState && (
-          <ListItem button onClick={() => history.push('/admin')} key="Admin">
-            <ListItemIcon>
-              <SupervisorAccountIcon />
-            </ListItemIcon>
-            <ListItemText primary="Interface Administrateur" />
-          </ListItem>
+          <>
+            <ListItem button onClick={() => history.push('/admin')} key="Admin">
+              <ListItemIcon>
+                <SupervisorAccountIcon />
+              </ListItemIcon>
+              <ListItemText primary="Interface Administrateur" />
+            </ListItem>
+            <Divider />
+          </>
         )}
+        <ListItem key="dev">
+          <ListItemIcon>
+            <InfoIcon />
+          </ListItemIcon>
+          <ListItemText primary="Application réalisée par BENBOUBKER Mahmoud" />
+        </ListItem>
       </List>
     </div>
   );
@@ -247,7 +246,6 @@ function Header({ niveaux, openModal, userState, openLogOutModal }) {
 }
 
 Header.propTypes = {
-  niveaux: PropTypes.array.isRequired,
   openModal: PropTypes.func,
   userState: PropTypes.bool.isRequired,
   openLogOutModal: PropTypes.func,

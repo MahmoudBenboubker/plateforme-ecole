@@ -24,13 +24,12 @@ import useStyles from './styles';
 import { GreenButton } from '../CustomizedElements/CustomizedElements';
 import { formHasErrors } from '../../constants/constants';
 
-function CoursFilter({ filter }) {
+function CoursFilter({ filter, classesSub }) {
   const classes = useStyles();
 
   const initialValues = {
     classe: '',
     matiere: '',
-    date: '',
   };
 
   const DocSchema = Yup.object().shape({
@@ -88,38 +87,9 @@ function CoursFilter({ filter }) {
                       <MenuItem value="">
                         <em>Aucune</em>
                       </MenuItem>
-                      <MenuItem value="classe 1">Classe 1</MenuItem>
-                      <MenuItem value="classe 2">Classe 2</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item>
-                  <FormControl
-                    style={{ margin: 0 }}
-                    margin="dense"
-                    variant="outlined"
-                  >
-                    <InputLabel>Date</InputLabel>
-                    <Select
-                      value={values.date}
-                      input={<OutlinedInput labelWidth={65} name="Date" />}
-                      onBlur={handleBlur}
-                      margin="dense"
-                      variant="outlined"
-                      name="date"
-                      id="date"
-                      fullWidth
-                      onChange={e => {
-                        handleChange(e);
-                      }}
-                      error={errors.date && touched.date}
-                      style={{ width: 200, marginRight: 16 }}
-                    >
-                      <MenuItem value="">
-                        <em>Aucune</em>
-                      </MenuItem>
-                      <MenuItem value="DESC">Les plus récentes</MenuItem>
-                      <MenuItem value="ASC">Les plus anciennes</MenuItem>
+                      {classesSub.map(classe => (
+                        <MenuItem value={classe.id}>{classe.name}</MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -167,7 +137,10 @@ function CoursFilter({ filter }) {
                     id="validerBtn"
                     style={{ marginRight: 17, width: '200px' }}
                     type="submit"
-                    disabled={formHasErrors(errors) || values === initialValues}
+                    disabled={
+                      formHasErrors(errors) ||
+                      values.classe === initialValues.classe
+                    }
                   >
                     Valider
                   </GreenButton>
@@ -181,6 +154,9 @@ function CoursFilter({ filter }) {
   );
 }
 
-CoursFilter.propTypes = { filter: PropTypes.func.isRequired };
+CoursFilter.propTypes = {
+  filter: PropTypes.func.isRequired,
+  classesSub: PropTypes.array.isRequired,
+};
 
 export default memo(CoursFilter);

@@ -5,21 +5,57 @@ const config = require('../util/config');
 // GET Resource
 exports.getResourcesByClasse = (req, res) => {
   const idClasse = req.params.id;
+  const matiere = req.query.matiere;
 
-  db.collection('resources')
-    .where('classeId', '==', idClasse)
-    .get()
-    .then(data => {
-      let resources = [];
-      data.forEach(doc => {
-        resources.push(doc.data());
+  
+
+  if (matiere) {
+    db.collection('resources')
+      .where('classeId', '==', idClasse)
+      .where('matiere', '==', matiere)
+      .get()
+      .then(data => {
+        let resources = [];
+        data.forEach(doc => {
+          resources.push(doc.data());
+        });
+        return res.json(resources);
+      })
+      .catch(err => {
+        console.error(err);
+        res.json({ message: 'failed' });
       });
-      return res.json(resources);
-    })
-    .catch(err => {
-      console.error(err);
-      res.json({ message: 'failed' });
-    });
+  } else {
+    db.collection('resources')
+      .where('classeId', '==', idClasse)
+      .get()
+      .then(data => {
+        let resources = [];
+        data.forEach(doc => {
+          resources.push(doc.data());
+        });
+        return res.json(resources);
+      })
+      .catch(err => {
+        console.error(err);
+        res.json({ message: 'failed' });
+      });
+  }
+
+  // db.collection('resources')
+  //   .where('classeId', '==', idClasse)
+  //   .get()
+  //   .then(data => {
+  //     let resources = [];
+  //     data.forEach(doc => {
+  //       resources.push(doc.data());
+  //     });
+  //     return res.json(resources);
+  //   })
+  //   .catch(err => {
+  //     console.error(err);
+  //     res.json({ message: 'failed' });
+  //   });
 };
 // No Resource
 exports.postResourceByClasse = (req, res) => {

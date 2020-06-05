@@ -156,7 +156,7 @@ export function App({
 
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route path="/cours" component={ListCours} />
+          <Route path="/cours/:idSubNiveau" component={ListCours} />
           <AuthRoute
             path="/admin"
             authenticated={userState}

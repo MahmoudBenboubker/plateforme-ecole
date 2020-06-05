@@ -7,7 +7,6 @@
 import React, { useEffect, memo } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
@@ -26,7 +25,6 @@ import Grid from '@material-ui/core/Grid';
 import NiveauPaper from '../../components/NiveauPaper/Loadable';
 import CenteredSection from './CenteredSection';
 import Section from './Section';
-import messages from './messages';
 import { fetchNiveauxAction } from '../App/actions';
 import { makeSelectUsername } from './selectors';
 import reducer from './reducer';
@@ -55,11 +53,10 @@ export function HomePage({ fetchNiveaux, niveauxSaga }) {
       </Helmet>
       <div>
         <CenteredSection>
-          <H2>
-            <FormattedMessage {...messages.startProjectHeader} />
-          </H2>
+          <H2>Bienvenue sur notre site !</H2>
           <p>
-            <FormattedMessage {...messages.startProjectMessage} />
+            Vous trouverez sur notre site tous les documents et les ressources
+            pour vous accompagner dans vos études.
           </p>
         </CenteredSection>
         <Section>
@@ -77,7 +74,6 @@ export function HomePage({ fetchNiveaux, niveauxSaga }) {
 }
 
 HomePage.propTypes = {
-  loading: PropTypes.bool,
   fetchNiveaux: PropTypes.func.isRequired,
   niveauxSaga: PropTypes.array.isRequired,
 };
